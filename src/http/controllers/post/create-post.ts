@@ -9,14 +9,15 @@ export const createPost = asyncHandler(async (req: Request, res: Response) => {
   const registreBodySchema = z.object({
     title: z.string().min(1, 'Title is required'), // Title must be a non-empty string
     content: z.string().min(1, 'Content is required'), // Content must be a non-empty string
+    img: z.string().optional(), // Image is an optional string
   })
 
   // Parse and validate the request body against the schema asynchronously
-  const { title, content } = await registreBodySchema.parseAsync(req.body)
+  const { title, content, img } = await registreBodySchema.parseAsync(req.body)
   const createPostUseCase = makeCreateUseCase() // Creating an instance of the use case for creating posts
 
   // Handle the creation of the post and wait for the result
-  const returnPost = await createPostUseCase.handler({ title, content })
+  const returnPost = await createPostUseCase.handler({ title, content, img })
 
   // Send a 201 Created response with the created post
   res.status(201).send(returnPost)
