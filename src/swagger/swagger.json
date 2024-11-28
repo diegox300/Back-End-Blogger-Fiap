@@ -193,6 +193,10 @@
         "content": {
           "type": "string",
           "example": "This is the content of the post."
+        },
+        "img": {
+          "type": "string",
+          "example": "http://example.com/image.jpg"
         }
       }
     },
@@ -206,6 +210,10 @@
         "content": {
           "type": "string",
           "example": "This is the content of the post."
+        },
+        "img": {
+          "type": "string",
+          "example": "http://example.com/image.jpg"
         }
       }
     }

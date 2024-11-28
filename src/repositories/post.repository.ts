@@ -6,6 +6,7 @@ import { Document } from 'mongoose' // Importing Document type from mongoose for
 interface PostType extends Document {
   title: string // Title of the post
   content: string // Content of the post
+  img: string // Image of the post
   createdAt: Date // Creation date of the post
   updatedAt: Date // Last update date of the post
 }
@@ -16,6 +17,7 @@ export class PostRepository {
   async createPost(post: {
     title: string // Title of the post to be created
     content: string // Content of the post to be created
+    img?: string // Image of the post to be created
   }): Promise<PostType> {
     // Create a new instance of the Post model with the provided data
     const newPost = new Post(post)
