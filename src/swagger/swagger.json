@@ -52,6 +52,42 @@
         }
       }
     },
+    "/posts/pagination": {
+      "get": {
+        "summary": "Get posts with pagination",
+        "description": "Retrieve a paginated list of posts",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Page number",
+            "required": false,
+            "type": "integer",
+            "default": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A paginated list of posts",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "posts": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/Post"
+                  }
+                },
+                "total": {
+                  "type": "integer",
+                  "description": "Total number of posts"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/posts/{id}": {
       "get": {
         "summary": "Get a single post by ID",

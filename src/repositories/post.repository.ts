@@ -35,6 +35,13 @@ export class PostRepository {
     return postById as PostType | null
   }
 
+  public async getAllPostsPagination(offset: number, limit: number) {
+    // Assuming you are using an ORM like Mongoose
+    const posts = await Post.find().skip(offset).limit(limit)
+    const total = await Post.countDocuments()
+    return { posts, total }
+  }
+
   async findById(id: string): Promise<PostType | null> {
     // Finding a post by its ID with execution
     return Post.findById(id).exec() // Executing the query to find the post

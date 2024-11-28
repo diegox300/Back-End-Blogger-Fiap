@@ -4,11 +4,15 @@ import { getPostById } from '../http/controllers/post/find-post' // Importing th
 import { getAllPosts } from '../http/controllers/post/get-all-posts' // Importing the controller for getting all posts
 import { deletePostById } from '../http/controllers/post/deletePostById' // Importing the controller for deleting a post by ID
 import { updatePostById } from '../http/controllers/post/update-post' // Importing the controller for updating a post by ID
+import { getAllPostsPagination } from '../http/controllers/post/get-all-posts-pagination' // Importing the controller for getting all posts with pagination;
 
 const router = Router() // Creating an instance of the Express Router
 
 // Get all posts
 router.get('/', getAllPosts) // Defining a route to get all posts
+
+// Get all posts with pagination
+router.get('/pagination', getAllPostsPagination) // Defining a route to get all posts with pagination
 
 // Create a new post
 router.post('/', createPost) // Defining a route to create a new post
