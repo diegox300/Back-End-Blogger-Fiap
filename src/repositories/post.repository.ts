@@ -18,9 +18,13 @@ export class PostRepository {
     title: string // Title of the post to be created
     content: string // Content of the post to be created
     img?: string // Image of the post to be created
+    userId: string // User ID of the post creator
   }): Promise<PostType> {
     // Create a new instance of the Post model with the provided data
-    const newPost = new Post(post)
+    const newPost = new Post({
+      ...post,
+      user: post.userId, // Assigning the user ID to the post)
+    })
 
     // Save the new post to the database
     await newPost.save()
@@ -35,6 +39,12 @@ export class PostRepository {
 
     // Return the found post or null if not found
     return postById as PostType | null
+  }
+
+  // Asynchronous method to find posts by user ID
+  async findPostsByUserId(userId: string): Promise<PostType[]> {
+    // Find posts by user ID
+    return Post.find({ user: userId }).exec()
   }
 
   public async getAllPostsPagination(offset: number, limit: number) {

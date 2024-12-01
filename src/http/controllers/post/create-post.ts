@@ -17,7 +17,12 @@ export const createPost = asyncHandler(async (req: Request, res: Response) => {
   const createPostUseCase = makeCreateUseCase() // Creating an instance of the use case for creating posts
 
   // Handle the creation of the post and wait for the result
-  const returnPost = await createPostUseCase.handler({ title, content, img })
+  const returnPost = await createPostUseCase.handler({
+    title,
+    content,
+    img,
+    userId: req.user.id,
+  })
 
   // Send a 201 Created response with the created post
   res.status(201).send(returnPost)
