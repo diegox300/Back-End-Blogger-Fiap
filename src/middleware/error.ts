@@ -16,7 +16,12 @@ export const errorMiddleware = (
       .status(400) // Respond with a 400 Bad Request status
       .send({ message: 'Validation error', errors: error.errors }) // Send validation errors
   }
-
+  // Check if the error message is 'Email already exists'
+  if (error.message === 'Email already exists') {
+    return res
+      .status(400) // Respond with a 409 Conflict status
+      .send({ message: 'Email already registered' }) // Send conflict error message
+  }
   // Log the error to the console in development mode
   if (env.NODE_ENV === 'development') {
     console.error(error) // Print the error stack trace
