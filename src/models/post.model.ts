@@ -6,7 +6,6 @@ export interface PostType extends Document {
   title: string // Title of the post
   content: string // Content of the post
   img: string // Image of the post
-  user: ObjectId // Reference to the user who created the post
   createdAt: Date // Creation date of the post
   updatedAt: Date // Last update date of the post
 }
@@ -17,7 +16,6 @@ const postSchema = new Schema<PostType>(
     title: { type: String, required: true }, // Title field is a required string
     content: { type: String, required: true }, // Content field is a required string
     img: { type: String, required: false }, // Image field is an optional string
-    user: { type: Schema.Types.ObjectId, ref: 'User', required: true }, // Reference to the user who created the post
   },
   {
     timestamps: true, // Automatically adds createdAt and updatedAt fields

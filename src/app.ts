@@ -1,6 +1,7 @@
 import express from 'express' // Importing the Express framework
 import routes from './routes/' // Importing the application's routes
 import { errorMiddleware } from './middleware/error' // Importing the error handling middleware
+import { authMiddleware } from './middleware/auth'
 
 const app = express() // Creating an instance of the Express application
 

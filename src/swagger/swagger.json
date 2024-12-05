@@ -13,6 +13,7 @@
       "get": {
         "summary": "Get all posts",
         "description": "Retrieve a list of all posts",
+        "tags": ["Posts"],
         "responses": {
           "200": {
             "description": "A list of posts",
@@ -28,6 +29,7 @@
       "post": {
         "summary": "Create a new post",
         "description": "Create a new post with the provided data",
+        "tags": ["Posts"],
         "parameters": [
           {
             "in": "body",
@@ -49,13 +51,19 @@
           "400": {
             "description": "Invalid data provided"
           }
-        }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
       }
     },
     "/posts/pagination": {
       "get": {
         "summary": "Get posts with pagination",
         "description": "Retrieve a paginated list of posts",
+        "tags": ["Posts"],
         "parameters": [
           {
             "name": "page",
@@ -92,6 +100,7 @@
       "get": {
         "summary": "Get a single post by ID",
         "description": "Retrieve a single post by its ID",
+        "tags": ["Posts"],
         "parameters": [
           {
             "name": "id",
@@ -119,6 +128,7 @@
       "patch": {
         "summary": "Update a post by ID",
         "description": "Update a post with the provided data",
+        "tags": ["Posts"],
         "parameters": [
           {
             "name": "id",
@@ -150,11 +160,17 @@
           "400": {
             "description": "Invalid ID provided / Invalid data provided"
           }
-        }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
       },
       "delete": {
         "summary": "Delete a post by ID",
         "description": "Delete a post by its ID",
+        "tags": ["Posts"],
         "parameters": [
           {
             "name": "id",
@@ -173,6 +189,70 @@
           },
           "400": {
             "description": "Invalid ID provided"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/users": {
+      "post": {
+        "summary": "Create a new user",
+        "description": "Create a new user with the provided data",
+        "tags": ["User"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "user",
+            "description": "The user to create",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/NewUser"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "User created successfully",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          "400": {
+            "description": "Invalid data provided"
+          }
+        }
+      }
+    },
+    "/users/email/{email}": {
+      "get": {
+        "summary": "Get a single user by email",
+        "description": "Retrieve a single user by their email",
+        "tags": ["User"],
+        "parameters": [
+          {
+            "name": "email",
+            "in": "path",
+            "required": true,
+            "description": "Email of the user to retrieve",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A single user",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          "404": {
+            "description": "User not found"
+          },
+          "400": {
+            "description": "Invalid email provided"
           }
         }
       }
@@ -216,6 +296,47 @@
           "example": "http://example.com/image.jpg"
         }
       }
+    },
+    "User": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "example": "12345"
+        },
+        "name": {
+          "type": "string",
+          "example": "John Doe"
+        },
+        "email": {
+          "type": "string",
+          "example": "john.doe@example.com"
+        }
+      }
+    },
+    "NewUser": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "example": "John Doe"
+        },
+        "email": {
+          "type": "string",
+          "example": "john.doe@example.com"
+        },
+        "password": {
+          "type": "string",
+          "example": "password123"
+        }
+      }
+    }
+  },
+  "securityDefinitions": {
+    "BearerAuth": {
+      "type": "apiKey",
+      "name": "Authorization",
+      "in": "header"
     }
   }
 }
