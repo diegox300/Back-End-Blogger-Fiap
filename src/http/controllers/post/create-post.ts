@@ -21,7 +21,6 @@ export const createPost = asyncHandler(async (req: Request, res: Response) => {
     title,
     content,
     img,
-    userId: req.user.id,
   })
 
   // Send a 201 Created response with the created post

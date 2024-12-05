@@ -22,6 +22,14 @@ export const errorMiddleware = (
       .status(400) // Respond with a 409 Conflict status
       .send({ message: 'Email already registered' }) // Send conflict error message
   }
+
+  if (error.message === 'User not found') {
+    // Check if the error message is 'User not found'
+    return res
+      .status(404) // Respond with a 404 Not Found status
+      .send({ message: 'User not found' }) // Send not found error message
+  }
+
   // Log the error to the console in development mode
   if (env.NODE_ENV === 'development') {
     console.error(error) // Print the error stack trace

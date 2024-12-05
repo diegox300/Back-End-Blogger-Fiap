@@ -5,11 +5,19 @@ export class GetUserUseCase {
 
   async findByEmail(email: string) {
     // Method to execute the retrieval of a user by email
-    return this.userRepository.findByEmail(email) // Calling the findByEmail method on the repository with email
+    const user = await this.userRepository.findByEmail(email)
+    if (!user) {
+      throw new Error('User not found')
+    }
+    return user
   }
 
   async findById(id: string) {
     // Method to execute the retrieval of a user by ID
-    return this.userRepository.findById(id) // Calling the findById method on the repository with ID
+    const user = await this.userRepository.findById(id)
+    if (!user) {
+      throw new Error('User not found')
+    }
+    return user
   }
 }
