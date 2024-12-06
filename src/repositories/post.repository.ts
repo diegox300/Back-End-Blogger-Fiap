@@ -37,6 +37,11 @@ export class PostRepository {
     return postById as PostType | null
   }
 
+  // Method to find posts by query
+  public async find(query: any): Promise<PostType[]> {
+    return Post.find(query).exec()
+  }
+
   // Asynchronous method to find posts by user ID
   async findPostsByUserId(userId: string): Promise<PostType[]> {
     // Find posts by user ID
