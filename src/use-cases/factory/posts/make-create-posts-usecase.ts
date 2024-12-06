@@ -1,5 +1,5 @@
-import { PostRepository } from '../../repositories/post.repository' // Importing the PostRepository for database operations
-import { createPostsCase } from '../create-posts-usecase' // Importing the createPostsCase use case
+import { PostRepository } from '../../../repositories/post.repository' // Importing the PostRepository for database operations
+import { createPostsCase } from '../../posts/create-posts-usecase' // Importing the createPostsCase use case
 
 export function makeCreateUseCase() {
   const postRepository = new PostRepository() // Creating an instance of PostRepository

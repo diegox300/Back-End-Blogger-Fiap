@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express'
-import { makeGetAllPostsUseCase } from '../../../use-cases/factory/make-get-all-posts-usecase'
+import { makeGetAllPostsUseCase } from '../../../use-cases/factory/posts/make-get-all-posts-usecase'
 
 // Get all posts
 export const getAllPosts = async (

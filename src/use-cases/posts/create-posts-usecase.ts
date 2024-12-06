@@ -1,4 +1,4 @@
-import { PostRepository } from '../repositories/post.repository' // Importing the PostRepository for database operations
+import { PostRepository } from '../../repositories/post.repository' // Importing the PostRepository for database operations
 
 // Dependency inversion principle applied: high-level modules should not depend on low-level modules
 

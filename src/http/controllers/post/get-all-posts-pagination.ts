@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express'
-import { makeGetAllPostsPaginationUseCase } from '../../../use-cases/factory/make-get-all-posts-pagination-usecase'
+import { makeGetAllPostsPaginationUseCase } from '../../../use-cases/factory/posts/make-get-all-posts-pagination-usecase'
 
 // Get all posts with pagination
 export const getAllPostsPagination = async (
