@@ -264,6 +264,22 @@
             "description": "Invalid data provided"
           }
         }
+      },
+      "get": {
+        "summary": "Get all users",
+        "description": "Retrieve a list of all users",
+        "tags": ["User"],
+        "responses": {
+          "200": {
+            "description": "A list of users",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/User"
+              }
+            }
+          }
+        }
       }
     },
     "/users/email/{email}": {
@@ -292,9 +308,6 @@
           },
           "400": {
             "description": "Invalid email provided"
-          },
-          "401": {
-            "description": "Unauthorized"
           }
         }
       }
