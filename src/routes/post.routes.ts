@@ -5,6 +5,7 @@ import { getAllPosts } from '../http/controllers/post/get-all-posts' // Importin
 import { deletePostById } from '../http/controllers/post/deletePostById' // Importing the controller for deleting a post by ID
 import { updatePostById } from '../http/controllers/post/update-post' // Importing the controller for updating a post by ID
 import { getAllPostsPagination } from '../http/controllers/post/get-all-posts-pagination' // Importing the controller for getting all posts with pagination;
+import { getPostsByLetter } from '../http/controllers/post/find-posts-by-letter' // Importing the controller for getting posts by letter
 import { authMiddleware } from '../middleware/auth'
 
 const router = Router() // Creating an instance of the Express Router
@@ -20,6 +21,9 @@ router.post('/', authMiddleware, createPost) // Defining a route to create a new
 
 // Get a single post by ID
 router.get('/:id', getPostById) // Defining a route to get a post by its ID
+
+// Get posts by letter
+router.get('/letter/:letter', getPostsByLetter) // Defining a route to get posts by letter
 
 // Update a post by ID
 router.patch('/:id', authMiddleware, updatePostById) // Defining a route to update a post by its ID
