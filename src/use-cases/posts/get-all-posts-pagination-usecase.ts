@@ -1,4 +1,4 @@
-import { PostRepository } from '../repositories/post.repository' // Importing the PostRepository for database operations
+import { PostRepository } from '../../repositories/post.repository' // Importing the PostRepository for database operations
 
 export class GetAllPostsPaginationUseCase {
   constructor(private postRepository: PostRepository) {} // Injecting the PostRepository dependency

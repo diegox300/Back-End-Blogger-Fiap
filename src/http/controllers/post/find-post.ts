@@ -1,5 +1,5 @@
 import { Request, Response } from 'express' // Import Request and Response types from express
-import { makeFindPostsCase } from '../../../use-cases/factory/make-find-posts-usecase' // Importing the factory function to create the use case for finding posts
+import { makeFindPostsCase } from '../../../use-cases/factory/posts/make-find-posts-usecase' // Importing the factory function to create the use case for finding posts
 import { validateObjectId } from '../../../middleware/validateObjectId' // Importing middleware for validating ObjectId format
 import { asyncHandler } from '../../../middleware/asyncHandler' // Importing middleware for handling async operations
 

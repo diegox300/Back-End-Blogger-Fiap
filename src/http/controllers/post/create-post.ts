@@ -1,6 +1,6 @@
 import { Request, Response } from 'express' // Import Request, Response, and NextFunction types from express
 import { z } from 'zod' // Import zod for schema validation
-import { makeCreateUseCase } from '../../../use-cases/factory/make-create-posts-usecase' // Importing the factory function to create the use case for creating posts
+import { makeCreateUseCase } from '../../../use-cases/factory/posts/make-create-posts-usecase' // Importing the factory function to create the use case for creating posts
 import { asyncHandler } from '../../../middleware/asyncHandler' // Importing middleware for handling async operations
 
 // Create a new post

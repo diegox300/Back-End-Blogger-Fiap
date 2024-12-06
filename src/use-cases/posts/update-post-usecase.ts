@@ -1,5 +1,5 @@
-import { PostRepository } from '../repositories/post.repository' // Importing the PostRepository for database operations
-import { PostType } from '../models/post.model' // Importing the PostType model; adjust the path as necessary
+import { PostRepository } from '../../repositories/post.repository' // Importing the PostRepository for database operations
+import { PostType } from '../../models/post.model' // Importing the PostType model; adjust the path as necessary
 export class UpdatePostUseCase {
   constructor(private postRepository: PostRepository) {} // Injecting the PostRepository dependency
 

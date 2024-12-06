@@ -1,6 +1,6 @@
 /* eslint-disable no-undef */
 
-import { GetAllPostsUseCase } from '../../use-cases/get-all-posts-usecase' // Import the use case for retrieving all posts
+import { GetAllPostsUseCase } from '../../use-cases/posts/get-all-posts-usecase' // Import the use case for retrieving all posts
 import { PostRepository } from '../../repositories/post.repository' // Import the Post repository interface
 
 describe('GetAllPostsUseCase', () => {
