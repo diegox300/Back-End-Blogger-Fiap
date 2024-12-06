@@ -1,6 +1,6 @@
 import { Request, Response } from 'express' // Import Request, Response, and NextFunction types from express
 import { z } from 'zod' // Import zod for schema validation
-import bcrypt from 'bcrypt' // Importing bcrypt for comparing passwords
+import bcrypt from 'bcryptjs' // Importing bcrypt for comparing passwords
 import jwt from 'jsonwebtoken' // Importing jsonwebtoken for generating JWT
 import { makeGetUserUseCase } from '../../../use-cases/factory/user/make-get-user-usecase' // Importing the factory function to create the use case for getting users
 import { asyncHandler } from '../../../middleware/asyncHandler' // Importing middleware for handling async operations
