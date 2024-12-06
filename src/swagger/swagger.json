@@ -275,6 +275,39 @@
         }
       }
     },
+    "/users/id/{id}": {
+      "get": {
+        "summary": "Get a single user by ID",
+        "description": "Retrieve a single user by their ID",
+        "tags": ["User"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID of the user to retrieve",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A single user",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          "404": {
+            "description": "User not found"
+          },
+          "400": {
+            "description": "Invalid ID provided"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
     "/users/login": {
       "post": {
         "summary": "Login a user",

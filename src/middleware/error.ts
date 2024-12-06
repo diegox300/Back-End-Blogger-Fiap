@@ -2,6 +2,8 @@ import { Request, Response, NextFunction } from 'express'
 import { ZodError } from 'zod'
 import { env } from '../env' // Importing environment variables
 import { InvalidCredentialsError } from '../errors/InvalidCredentialsError' // Importing the custom error class
+import { EmailAlreadyExistsError } from '../errors/EmailAlreadyExistsError' // Importing the custom error class
+import { UserNotFoundError } from '../errors/UserNotFoundError' // Importing the custom error class
 
 // Error handling middleware for Express
 export const errorMiddleware = (
@@ -25,18 +27,18 @@ export const errorMiddleware = (
       .send({ message: error.message }) // Send the error message
   }
 
-  // Check if the error message is 'Email already exists'
-  if (error.message === 'Email already exists') {
+  // Check if the error is an instance of EmailAlreadyExistsError
+  if (error instanceof EmailAlreadyExistsError) {
     return res
-      .status(409) // Respond with a 409 Conflict status
-      .send({ message: 'Email already registered' }) // Send conflict error message
+      .status(error.status) // Respond with the error status
+      .send({ message: error.message }) // Send the error message
   }
 
-  // Check if the error message is 'User not found'
-  if (error.message === 'User not found') {
+  // Check if the error is an instance of UserNotFoundError
+  if (error instanceof UserNotFoundError) {
     return res
-      .status(404) // Respond with a 404 Not Found status
-      .send({ message: 'User not found' }) // Send not found error message
+      .status(error.status) // Respond with the error status
+      .send({ message: error.message }) // Send the error message
   }
 
   // Log the error to the console in development mode
