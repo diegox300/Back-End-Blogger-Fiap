@@ -2,7 +2,7 @@ import { Router } from 'express' // Importing the Router from the Express framew
 import { createUser } from '../http/controllers/user/create-user' // Importing the controller for creating a user
 import { getUserByEmail } from '../http/controllers/user/get-user-by-email' // Importing the controller for getting a user by email and ID
 import { getUserById } from '../http/controllers/user/get-user-by-id' // Importing the controller for getting a user by ID
-import { loginUser } from '../http/controllers/user/login' // Importing the controller for logging in a user
+import { loginUser } from '../http/controllers/user/login-user' // Importing the controller for logging in a user
 
 const router = Router() // Creating an instance of the Express Router
 

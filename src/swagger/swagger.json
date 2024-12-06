@@ -99,12 +99,7 @@
           "401": {
             "description": "Unauthorized"
           }
-        },
-        "security": [
-          {
-            "BearerAuth": []
-          }
-        ]
+        }
       }
     },
     "/posts/{id}": {
@@ -137,12 +132,7 @@
           "401": {
             "description": "Unauthorized"
           }
-        },
-        "security": [
-          {
-            "BearerAuth": []
-          }
-        ]
+        }
       },
       "patch": {
         "summary": "Update a post by ID",
