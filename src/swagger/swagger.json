@@ -50,6 +50,9 @@
           },
           "400": {
             "description": "Invalid data provided"
+          },
+          "401": {
+            "description": "Unauthorized"
           }
         },
         "security": [
@@ -92,8 +95,16 @@
                 }
               }
             }
+          },
+          "401": {
+            "description": "Unauthorized"
           }
-        }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
       }
     },
     "/posts/{id}": {
@@ -122,8 +133,16 @@
           },
           "400": {
             "description": "Invalid ID provided"
+          },
+          "401": {
+            "description": "Unauthorized"
           }
-        }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
       },
       "patch": {
         "summary": "Update a post by ID",
@@ -159,6 +178,9 @@
           },
           "400": {
             "description": "Invalid ID provided / Invalid data provided"
+          },
+          "401": {
+            "description": "Unauthorized"
           }
         },
         "security": [
@@ -189,6 +211,9 @@
           },
           "400": {
             "description": "Invalid ID provided"
+          },
+          "401": {
+            "description": "Unauthorized"
           }
         },
         "security": [
@@ -253,6 +278,44 @@
           },
           "400": {
             "description": "Invalid email provided"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/users/login": {
+      "post": {
+        "summary": "Login a user",
+        "description": "Authenticate a user and return a JWT token",
+        "tags": ["User"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "login",
+            "description": "The login credentials",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Login"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User logged in successfully",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "token": {
+                  "type": "string",
+                  "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid email or password"
           }
         }
       }
@@ -321,6 +384,19 @@
           "type": "string",
           "example": "John Doe"
         },
+        "email": {
+          "type": "string",
+          "example": "john.doe@example.com"
+        },
+        "password": {
+          "type": "string",
+          "example": "password123"
+        }
+      }
+    },
+    "Login": {
+      "type": "object",
+      "properties": {
         "email": {
           "type": "string",
           "example": "john.doe@example.com"

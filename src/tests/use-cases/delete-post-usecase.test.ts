@@ -3,7 +3,7 @@
 import request from 'supertest' // Import supertest for testing HTTP requests
 import express from 'express' // Import the express framework
 import { deletePostById } from '../../http/controllers/post/deletePostById' // Import the controller for deleting a post
-import { makeDeletePostUseCase } from '../../use-cases/factory/make-delete-post-usecase' // Import the factory function for creating a delete post use case
+import { makeDeletePostUseCase } from '../../use-cases/factory/posts/make-delete-post-usecase' // Import the factory function for creating a delete post use case
 
 jest.mock('../../use-cases/factory/make-delete-post-usecase') // Mock the use case factory
 

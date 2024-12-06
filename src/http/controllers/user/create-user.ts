@@ -28,6 +28,7 @@ export const createUser = asyncHandler(async (req: Request, res: Response) => {
     email,
     password: hashedPassword,
   })
+
   // removed password from the response
   const { password: _, ...userWithoutPassword } = returnUser.toObject()
 

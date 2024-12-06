@@ -1,6 +1,6 @@
 /* eslint-disable no-undef */
 
-import { FindPostsCase } from '../../use-cases/find-posts-usecase'
+import { FindPostsCase } from '../../use-cases/posts/find-posts-usecase'
 import { PostRepository } from '../../repositories/post.repository'
 
 // Mocking the PostRepository
