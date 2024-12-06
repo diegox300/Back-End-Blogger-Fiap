@@ -17,6 +17,10 @@ export class UserRepository {
     return newUser as UserType
   }
 
+  async findAll(): Promise<UserType[]> {
+    return User.find().exec()
+  }
+
   // Asynchronous method to find a user by email
   async findByEmail(email: string): Promise<UserType | null> {
     // Find a user by their email
