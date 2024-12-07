@@ -1,4 +1,5 @@
-import User, { UserType } from '../models/user.model' // Import the User model and UserType interface
+import { ObjectId } from 'mongoose' // Importing ObjectId from mongoose
+import User, { UserType } from '../models/user.model' // Importing the User model and UserType interface
 
 export class UserRepository {
   // Asynchronous method to create a new user
@@ -17,6 +18,7 @@ export class UserRepository {
     return newUser as UserType
   }
 
+  // Asynchronous method to find all users
   async findAll(): Promise<UserType[]> {
     return User.find().exec()
   }
@@ -31,5 +33,10 @@ export class UserRepository {
   async findById(id: string): Promise<UserType | null> {
     // Find a user by their ID
     return User.findById(id).exec()
+  }
+
+  // Method to add a post to a user's list of posts
+  async addPostToUser(userId: ObjectId, postId: ObjectId): Promise<void> {
+    await User.findByIdAndUpdate(userId, { $push: { posts: postId } }).exec()
   }
 }

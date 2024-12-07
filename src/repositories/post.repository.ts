@@ -1,23 +1,13 @@
-// Import the Post model and Document type from mongoose
-import Post from '../models/post.model' // Importing the Post model for database operations
-import { Document } from 'mongoose' // Importing Document type from mongoose for type definition
+import { ObjectId } from 'mongoose' // Importing ObjectId from mongoose
+import Post, { PostType } from '../models/post.model' // Importing the Post model and PostType interface
 
-// Define the PostType interface that extends Document from mongoose
-interface PostType extends Document {
-  title: string // Title of the post
-  content: string // Content of the post
-  img: string // Image of the post
-  createdAt: Date // Creation date of the post
-  updatedAt: Date // Last update date of the post
-}
-
-// Class representing the Post repository
 export class PostRepository {
   // Asynchronous method to create a new post
   async createPost(post: {
-    title: string // Title of the post to be created
-    content: string // Content of the post to be created
-    img?: string // Image of the post to be created
+    title: string
+    content: string
+    img?: string
+    author: ObjectId
   }): Promise<PostType> {
     // Create a new instance of the Post model with the provided data
     const newPost = new Post(post)
@@ -28,7 +18,13 @@ export class PostRepository {
     // Return the new post as PostType
     return newPost as PostType
   }
+  // Method to get all posts
+  public async getAllPosts(): Promise<PostType[]> {
+    const posts = await Post.find().exec()
+    return posts.map((post) => post.toObject() as PostType)
+  }
 
+  // Method to find a post by its ID
   public async getPostById(id: string): Promise<PostType | null> {
     // Find a post by its ID
     const postById = await Post.findById(id)
@@ -39,51 +35,49 @@ export class PostRepository {
 
   // Method to find posts by query
   public async find(query: any): Promise<PostType[]> {
-    return Post.find(query).exec()
+    const posts = await Post.find(query).exec()
+    return posts.map((post) => post.toObject() as PostType)
   }
 
-  // Asynchronous method to find posts by user ID
+  // Method to find posts by user ID
   async findPostsByUserId(userId: string): Promise<PostType[]> {
     // Find posts by user ID
-    return Post.find({ user: userId }).exec()
+    const posts = await Post.find({ author: userId }).exec()
+    return posts.map((post) => post.toObject() as PostType)
   }
 
+  // Method to get all posts with pagination
   public async getAllPostsPagination(offset: number, limit: number) {
-    // Assuming you are using an ORM like Mongoose
     const posts = await Post.find().skip(offset).limit(limit)
     const total = await Post.countDocuments()
-    return { posts, total }
+    return { posts: posts.map((post) => post.toObject() as PostType), total }
   }
 
+  // Method to find a post by its ID
   async findById(id: string): Promise<PostType | null> {
     // Finding a post by its ID with execution
-    return Post.findById(id).exec() // Executing the query to find the post
+    const post = await Post.findById(id).exec() // Executing the query to find the post
+    return post ? (post.toObject() as PostType) : null
   }
-
-  public async getAllPosts(): Promise<PostType[]> {
-    // Find all posts
-    const posts = await Post.find()
-
-    // Return the found posts
-    return posts as PostType[]
-  }
-
-  // Asynchronous method to delete a post by ID
+  // Method to delete a post by its ID
   public async deletePostById(id: string): Promise<PostType | null> {
-    // Finding and deleting a post by its ID
+    // Delete a post by its ID
     const deletedPost = await Post.findByIdAndDelete(id)
-    return deletedPost as PostType | null // Returning the deleted post or null
-  }
 
-  // Asynchronous method to update a post by ID
+    // Return the deleted post or null if not found
+    return deletedPost ? (deletedPost.toObject() as PostType) : null
+  }
+  // Method to update a post by its ID
   public async updatePostById(
     id: string,
     updateData: Partial<PostType>,
   ): Promise<PostType | null> {
-    // Finding and updating a post by its ID with new data
+    // Update a post by its ID
     const updatedPost = await Post.findByIdAndUpdate(id, updateData, {
-      new: true, // Returning the updated post
+      new: true,
     })
-    return updatedPost as PostType | null // Returning the updated post or null
+
+    // Return the updated post or null if not found
+    return updatedPost ? (updatedPost.toObject() as PostType) : null
   }
 }
