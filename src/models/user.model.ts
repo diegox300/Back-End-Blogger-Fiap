@@ -6,6 +6,7 @@ export interface UserType extends Document {
   name: string // Name of the user
   email: string // Email of the user
   password: string // Password of the user
+  posts: ObjectId[] // List of posts created by the user
   createdAt: Date // Creation date of the user
   updatedAt: Date // Last update date of the user
 }
@@ -16,6 +17,7 @@ const userSchema = new Schema<UserType>(
     name: { type: String, required: true }, // Name field is a required string
     email: { type: String, required: true, unique: true }, // Email field is a required string and must be unique
     password: { type: String, required: true }, // Password field is a required string
+    posts: [{ type: Schema.Types.ObjectId, ref: 'Post' }], // Posts field is an array of ObjectIds that reference the Post model
   },
   {
     timestamps: true, // Automatically adds createdAt and updatedAt fields

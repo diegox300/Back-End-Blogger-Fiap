@@ -1,12 +1,25 @@
+import { ObjectId } from 'mongoose' // Importing ObjectId from mongoose
 import { PostRepository } from '../../repositories/post.repository' // Importing the PostRepository for database operations
+import { UserRepository } from '../../repositories/user.repository' // Importing the UserRepository for database operations
 
-// Dependency inversion principle applied: high-level modules should not depend on low-level modules
+export class CreatePostUseCase {
+  constructor(
+    private postRepository: PostRepository,
+    private userRepository: UserRepository,
+  ) {} // Injecting the PostRepository and UserRepository dependencies
 
-export class createPostsCase {
-  constructor(private postRepository: PostRepository) {} // Injecting the PostRepository dependency
+  async handler(data: {
+    title: string
+    content: string
+    img?: string
+    author: ObjectId
+  }) {
+    // Method to execute the creation of a post
+    const post = await this.postRepository.createPost(data)
 
-  handler(post: { title: string; content: string; img?: string }) {
-    // Method to handle the creation of a post
-    return this.postRepository.createPost(post) // Calling the createPost method on the repository
+    // Add the post to the user's list of posts
+    await this.userRepository.addPostToUser(data.author, post._id)
+
+    return post
   }
 }
