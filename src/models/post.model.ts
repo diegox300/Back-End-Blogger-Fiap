@@ -1,11 +1,12 @@
-import { Schema, model, Document, ObjectId } from 'mongoose' // Importing Schema, model, Document, and ObjectId from mongoose
+import { Schema, model, Document, Types } from 'mongoose' // Importing Schema, model, Document, and Types from mongoose
+import { UserType } from './user.model' // Importing UserType from the user model
 
 // Define the PostType interface that extends Document from mongoose
 export interface PostType extends Document {
-  _id: ObjectId
+  _id: Types.ObjectId
   title: string // Title of the post
   content: string // Content of the post
-  author: ObjectId // Reference to the user who created the post
+  author: Types.ObjectId | UserType // Reference to the user who created the post
   img?: string // Optional image URL
   createdAt: Date // Creation date of the post
   updatedAt: Date // Last update date of the post
