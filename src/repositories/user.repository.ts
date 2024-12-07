@@ -1,4 +1,4 @@
-import { ObjectId } from 'mongoose' // Importing ObjectId from mongoose
+import { Types } from 'mongoose' // Importing Types from mongoose
 import User, { UserType } from '../models/user.model' // Importing the User model and UserType interface
 
 export class UserRepository {
@@ -36,7 +36,10 @@ export class UserRepository {
   }
 
   // Method to add a post to a user's list of posts
-  async addPostToUser(userId: ObjectId, postId: ObjectId): Promise<void> {
+  async addPostToUser(
+    userId: Types.ObjectId,
+    postId: Types.ObjectId,
+  ): Promise<void> {
     await User.findByIdAndUpdate(userId, { $push: { posts: postId } }).exec()
   }
 }

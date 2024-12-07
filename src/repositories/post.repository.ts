@@ -1,4 +1,4 @@
-import { ObjectId } from 'mongoose' // Importing ObjectId from mongoose
+import { Types } from 'mongoose'
 import Post, { PostType } from '../models/post.model' // Importing the Post model and PostType interface
 
 export class PostRepository {
@@ -7,7 +7,7 @@ export class PostRepository {
     title: string
     content: string
     img?: string
-    author: ObjectId
+    author: Types.ObjectId
   }): Promise<PostType> {
     // Create a new instance of the Post model with the provided data
     const newPost = new Post(post)
@@ -15,9 +15,13 @@ export class PostRepository {
     // Save the new post to the database
     await newPost.save()
 
+    // Populate the author field
+    await newPost.populate('author')
+
     // Return the new post as PostType
     return newPost as PostType
   }
+
   // Method to get all posts
   public async getAllPosts(): Promise<PostType[]> {
     const posts = await Post.find().exec()
@@ -59,6 +63,7 @@ export class PostRepository {
     const post = await Post.findById(id).exec() // Executing the query to find the post
     return post ? (post.toObject() as PostType) : null
   }
+
   // Method to delete a post by its ID
   public async deletePostById(id: string): Promise<PostType | null> {
     // Delete a post by its ID
@@ -67,6 +72,7 @@ export class PostRepository {
     // Return the deleted post or null if not found
     return deletedPost ? (deletedPost.toObject() as PostType) : null
   }
+
   // Method to update a post by its ID
   public async updatePostById(
     id: string,

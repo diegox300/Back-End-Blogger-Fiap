@@ -3,6 +3,7 @@ import { z } from 'zod' // Import zod for schema validation
 import { makeCreatePostUseCase } from '../../../use-cases/factory/posts/make-create-posts-usecase' // Importing the factory function to create the use case for creating posts
 import { asyncHandler } from '../../../middleware/asyncHandler' // Importing middleware for handling async operations
 import { UserType } from '../../../models/user.model' // Importing the UserType interface
+import { Types } from 'mongoose' // Importing Types from mongoose
 
 interface CustomRequest extends Request {
   user?: UserType // Extending the Request interface with the user property
@@ -29,10 +30,13 @@ export const createPost = asyncHandler(
       title,
       content,
       img,
-      author: req.user!._id, // Use the authenticated user's ID as the author
+      author: new Types.ObjectId(req.user!._id.toString()), // Use the authenticated user's ID as the author
     })
 
-    // Send a 201 Created response with the created post
-    res.status(201).send(returnPost)
+    // Send a 201 Created response with the created post, including the author's name
+    res.status(201).send({
+      ...returnPost.toObject(),
+      author: (returnPost.author as UserType).name, // Replace the author ID with the author's name
+    })
   },
 )

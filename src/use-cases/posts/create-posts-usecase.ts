@@ -1,4 +1,4 @@
-import { ObjectId } from 'mongoose' // Importing ObjectId from mongoose
+import { Types } from 'mongoose' // Importing Types from mongoose
 import { PostRepository } from '../../repositories/post.repository' // Importing the PostRepository for database operations
 import { UserRepository } from '../../repositories/user.repository' // Importing the UserRepository for database operations
 
@@ -12,7 +12,7 @@ export class CreatePostUseCase {
     title: string
     content: string
     img?: string
-    author: ObjectId
+    author: Types.ObjectId
   }) {
     // Method to execute the creation of a post
     const post = await this.postRepository.createPost(data)
