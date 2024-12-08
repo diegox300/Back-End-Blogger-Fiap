@@ -6,6 +6,7 @@ export class FindPostsCase {
   async handler(id: string) {
     // Method to handle finding a post by its ID
     const post = await this.postRepository.findById(id) // Awaiting the result of the findById method on the repository
+    console.log(post)
     return post // Returning the found post
   }
 }
