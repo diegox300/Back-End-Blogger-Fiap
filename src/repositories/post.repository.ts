@@ -24,17 +24,17 @@ export class PostRepository {
 
   // Method to get all posts
   public async getAllPosts(): Promise<PostType[]> {
-    const posts = await Post.find().exec()
+    const posts = await Post.find().populate('author').exec()
     return posts.map((post) => post.toObject() as PostType)
   }
 
   // Method to find a post by its ID
   public async getPostById(id: string): Promise<PostType | null> {
-    // Find a post by its ID
-    const postById = await Post.findById(id)
+    // Find a post by its ID and populate the author field
+    const postById = await Post.findById(id).populate('author').exec()
 
     // Return the found post or null if not found
-    return postById as PostType | null
+    return postById ? (postById.toObject() as PostType) : null
   }
 
   // Method to find posts by query
@@ -52,15 +52,21 @@ export class PostRepository {
 
   // Method to get all posts with pagination
   public async getAllPostsPagination(offset: number, limit: number) {
-    const posts = await Post.find().skip(offset).limit(limit)
+    const posts = await Post.find()
+      .skip(offset)
+      .limit(limit)
+      .populate('author')
+      .exec()
     const total = await Post.countDocuments()
     return { posts: posts.map((post) => post.toObject() as PostType), total }
   }
 
   // Method to find a post by its ID
   async findById(id: string): Promise<PostType | null> {
-    // Finding a post by its ID with execution
-    const post = await Post.findById(id).exec() // Executing the query to find the post
+    // Encontrar o post pelo ID e popular o campo 'author'
+    const post = await Post.findById(id).populate('author').exec() // Use o populate aqui
+
+    // Retorna o post populado ou null se não encontrado
     return post ? (post.toObject() as PostType) : null
   }
 
