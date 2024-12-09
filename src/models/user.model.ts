@@ -7,6 +7,7 @@ export interface UserType extends Document {
   email: string // Email of the user
   password: string // Password of the user
   posts: ObjectId[] // List of posts created by the user
+  isAdmin: boolean // Whether the user is an admin
   createdAt: Date // Creation date of the user
   updatedAt: Date // Last update date of the user
 }
@@ -18,6 +19,7 @@ const userSchema = new Schema<UserType>(
     email: { type: String, required: true, unique: true }, // Email field is a required string and must be unique
     password: { type: String, required: true }, // Password field is a required string
     posts: [{ type: Schema.Types.ObjectId, ref: 'Post' }], // Posts field is an array of ObjectIds that reference the Post model
+    isAdmin: { type: Boolean, default: true }, // isAdmin field is a boolean with a default value of false
   },
   {
     timestamps: true, // Automatically adds createdAt and updatedAt fields

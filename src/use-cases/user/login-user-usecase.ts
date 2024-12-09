@@ -27,6 +27,6 @@ export class LoginUserUseCase {
     // Remove the password from the user object
     const { password: _, ...userWithoutPassword } = user.toObject()
 
-    return { token, user: userWithoutPassword }
+    return { token, isAdmin: user.isAdmin, user: userWithoutPassword }
   }
 }
