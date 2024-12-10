@@ -13,10 +13,6 @@ asyncHandler(async (req: Request, res: Response) => {
   // Handle the retrieval of the user and wait for the result
   const user = await findUserByIdUseCase.handler(id)
 
-  if (!user) {
-    return new UserNotFoundError() // Pass the error to the error handling middleware
-  }
-
   // Send a 200 OK response with the user data
   res.status(200).send(user)
 })
