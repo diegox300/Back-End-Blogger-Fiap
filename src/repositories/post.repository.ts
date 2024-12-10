@@ -1,5 +1,6 @@
 import { Types } from 'mongoose'
 import Post, { PostType } from '../models/post.model' // Importing the Post model and PostType interface
+import User from '../models/user.model' // Importing the User model
 
 export class PostRepository {
   // Asynchronous method to create a new post
@@ -72,8 +73,16 @@ export class PostRepository {
 
   // Method to delete a post by its ID
   public async deletePostById(id: string): Promise<PostType | null> {
-    // Delete a post by its ID
+    // Find and delete the post by its ID
     const deletedPost = await Post.findByIdAndDelete(id)
+
+    if (deletedPost) {
+      // Remove the post ID from the user's list of posts
+      await User.updateOne(
+        { _id: deletedPost.author },
+        { $pull: { posts: deletedPost._id } },
+      ).exec()
+    }
 
     // Return the deleted post or null if not found
     return deletedPost ? (deletedPost.toObject() as PostType) : null
