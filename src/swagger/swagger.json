@@ -278,6 +278,9 @@
               }
             }
           },
+          "400": {
+            "description": "Invalid data provided or Email already exists"
+          },
           "500": {
             "description": "Internal server error"
           }
