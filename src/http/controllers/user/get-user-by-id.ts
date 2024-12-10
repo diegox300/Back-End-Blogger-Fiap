@@ -1,7 +1,8 @@
-import { Request, Response } from 'express'
+import { Request, Response, NextFunction } from 'express'
 import { makeFindUserByIdUseCase } from '../../../use-cases/factory/user/make-find-user-by-id-usecase' // Importing the factory function to create the use case for finding users by ID
 import { asyncHandler } from '../../../middleware/asyncHandler' // Importing middleware for handling async operations
 import { validateObjectId } from '../../../middleware/validateObjectId'
+import { UserNotFoundError } from '../../../errors/UserNotFoundError'
 
 // Get a user by ID
 export const getUserById = [validateObjectId]
@@ -11,6 +12,10 @@ asyncHandler(async (req: Request, res: Response) => {
 
   // Handle the retrieval of the user and wait for the result
   const user = await findUserByIdUseCase.handler(id)
+
+  if (!user) {
+    return new UserNotFoundError() // Pass the error to the error handling middleware
+  }
 
   // Send a 200 OK response with the user data
   res.status(200).send(user)
