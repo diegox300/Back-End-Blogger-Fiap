@@ -11,7 +11,7 @@ export const getAllPostsPagination = async (
   const getAllPostsPaginationUseCase = makeGetAllPostsPaginationUseCase()
 
   const page = parseInt(req.query.page as string) || 1 // Get the page number from query parameters, default to 1 if not provided
-  const limit = 10 // Define the limit of posts per page
+  const limit = 6 // Define the limit of posts per page
   const offset = (page - 1) * limit // Calculate the offset
 
   getAllPostsPaginationUseCase
