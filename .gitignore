@@ -146,3 +146,4 @@ dist
 swagger.json
 
 # End of https://www.toptal.com/developers/gitignore/api/node
+src/swagger/swagger.json
