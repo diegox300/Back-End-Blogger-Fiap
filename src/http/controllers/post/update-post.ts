@@ -3,6 +3,7 @@ import { makeUpdatePostUseCase } from '../../../use-cases/factory/posts/make-upd
 import { asyncHandler } from '../../../middleware/asyncHandler' // Importing middleware for handling async operations
 import { validateObjectId } from '../../../middleware/validateObjectId' // Importing middleware for validating ObjectId format
 import { z } from 'zod' // Importing Zod for schema validation
+import { UserType } from '../../../models/user.model' // Importing the UserType interface
 
 // Defining the Zod validation schema for the post update data
 const updatePostSchema = z.object({
@@ -38,6 +39,10 @@ export const updatePostById = [
       return res.status(404).json({ message: `ID ${id} not found` }) // Responds with 404 if the post is not found
     }
 
-    return res.status(200).json(updatedPost) // Responds with 200 and the updated post
+    // Send a 200 OK response with the updated post, including the author's name
+    return res.status(200).json({
+      ...updatedPost,
+      author: (updatedPost.author as UserType).name, // Replace the author ID with the author's name
+    })
   }),
 ]
