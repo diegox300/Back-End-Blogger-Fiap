@@ -97,6 +97,8 @@ export class PostRepository {
     const updatedPost = await Post.findByIdAndUpdate(id, updateData, {
       new: true,
     })
+      .populate('author')
+      .exec()
 
     // Return the updated post or null if not found
     return updatedPost ? (updatedPost.toObject() as PostType) : null
