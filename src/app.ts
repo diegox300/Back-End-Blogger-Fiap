@@ -1,7 +1,6 @@
 import express from 'express' // Importing the Express framework
 import routes from './routes/' // Importing the application's routes
 import { errorMiddleware } from './middleware/error' // Importing the error handling middleware
-import { authMiddleware } from './middleware/auth'
 import cors from 'cors'
 import { json } from 'body-parser'
 
