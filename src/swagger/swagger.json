@@ -1,14 +1,55 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "Tech Challenge 3 - API Documentation",
-    "version": "2.0.0",
+    "title": "API Documentation",
+    "version": "1.0.0",
     "description": "API documentation for the project"
   },
   "host": "tech-challenge-back-end.vercel.app",
   "basePath": "/",
   "schemes": ["https"],
   "paths": {
+    "/login": {
+      "post": {
+        "summary": "Login a user",
+        "description": "Authenticate a user and return a JWT token",
+        "tags": ["Users"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "login",
+            "description": "The login credentials",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Login"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User logged in successfully",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "token": {
+                  "type": "string",
+                  "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+                },
+                "user": {
+                  "$ref": "#/definitions/User"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid email or password"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
     "/posts": {
       "get": {
         "summary": "Get all posts",
@@ -23,6 +64,9 @@
                 "$ref": "#/definitions/Post"
               }
             }
+          },
+          "500": {
+            "description": "Internal server error"
           }
         }
       },
@@ -34,7 +78,7 @@
           {
             "in": "body",
             "name": "post",
-            "description": "The post to create",
+            "description": "The post data to create",
             "required": true,
             "schema": {
               "$ref": "#/definitions/NewPost"
@@ -53,6 +97,9 @@
           },
           "401": {
             "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal server error"
           }
         },
         "security": [
@@ -95,6 +142,9 @@
                 }
               }
             }
+          },
+          "500": {
+            "description": "Internal server error"
           }
         }
       }
@@ -115,7 +165,7 @@
         ],
         "responses": {
           "200": {
-            "description": "A single post",
+            "description": "The requested post",
             "schema": {
               "$ref": "#/definitions/Post"
             }
@@ -125,6 +175,9 @@
           },
           "400": {
             "description": "Invalid ID provided"
+          },
+          "500": {
+            "description": "Internal server error"
           }
         }
       },
@@ -165,6 +218,9 @@
           },
           "401": {
             "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal server error"
           }
         },
         "security": [
@@ -207,46 +263,35 @@
         ]
       }
     },
-    "/posts/letter/{letter}": {
+    "/users": {
       "get": {
-        "summary": "Get posts by letter",
-        "description": "Retrieve a list of posts that start with a specific letter",
-        "tags": ["Posts"],
-        "parameters": [
-          {
-            "name": "letter",
-            "in": "path",
-            "required": true,
-            "description": "The letter to filter posts by",
-            "type": "string"
-          }
-        ],
+        "summary": "Get all users",
+        "description": "Retrieve a list of all users",
+        "tags": ["Users"],
         "responses": {
           "200": {
-            "description": "A list of posts",
+            "description": "A list of users",
             "schema": {
               "type": "array",
               "items": {
-                "$ref": "#/definitions/Post"
+                "$ref": "#/definitions/User"
               }
             }
           },
-          "400": {
-            "description": "Invalid letter provided"
+          "500": {
+            "description": "Internal server error"
           }
         }
-      }
-    },
-    "/users": {
+      },
       "post": {
         "summary": "Create a new user",
         "description": "Create a new user with the provided data",
-        "tags": ["User"],
+        "tags": ["Users"],
         "parameters": [
           {
             "in": "body",
             "name": "user",
-            "description": "The user to create",
+            "description": "The user data to create",
             "required": true,
             "schema": {
               "$ref": "#/definitions/NewUser"
@@ -262,31 +307,18 @@
           },
           "400": {
             "description": "Invalid data provided"
-          }
-        }
-      },
-      "get": {
-        "summary": "Get all users",
-        "description": "Retrieve a list of all users",
-        "tags": ["User"],
-        "responses": {
-          "200": {
-            "description": "A list of users",
-            "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/User"
-              }
-            }
+          },
+          "500": {
+            "description": "Internal server error"
           }
         }
       }
     },
     "/users/email/{email}": {
       "get": {
-        "summary": "Get a single user by email",
-        "description": "Retrieve a single user by their email",
-        "tags": ["User"],
+        "summary": "Get a user by email",
+        "description": "Retrieve a user by their email",
+        "tags": ["Users"],
         "parameters": [
           {
             "name": "email",
@@ -298,7 +330,7 @@
         ],
         "responses": {
           "200": {
-            "description": "A single user",
+            "description": "The requested user",
             "schema": {
               "$ref": "#/definitions/User"
             }
@@ -308,15 +340,18 @@
           },
           "400": {
             "description": "Invalid email provided"
+          },
+          "500": {
+            "description": "Internal server error"
           }
         }
       }
     },
     "/users/id/{id}": {
       "get": {
-        "summary": "Get a single user by ID",
-        "description": "Retrieve a single user by their ID",
-        "tags": ["User"],
+        "summary": "Get a user by ID",
+        "description": "Retrieve a user by their ID",
+        "tags": ["Users"],
         "parameters": [
           {
             "name": "id",
@@ -328,7 +363,7 @@
         ],
         "responses": {
           "200": {
-            "description": "A single user",
+            "description": "The requested user",
             "schema": {
               "$ref": "#/definitions/User"
             }
@@ -338,85 +373,15 @@
           },
           "400": {
             "description": "Invalid ID provided"
-          }
-        }
-      }
-    },
-    "/users/login": {
-      "post": {
-        "summary": "Login a user",
-        "description": "Authenticate a user and return a JWT token",
-        "tags": ["User"],
-        "parameters": [
-          {
-            "in": "body",
-            "name": "login",
-            "description": "The login credentials",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/Login"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "User logged in successfully",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "token": {
-                  "type": "string",
-                  "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
-                }
-              }
-            }
           },
-          "401": {
-            "description": "Invalid email or password"
+          "500": {
+            "description": "Internal server error"
           }
         }
       }
     }
   },
   "definitions": {
-    "Post": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string",
-          "example": "12345"
-        },
-        "title": {
-          "type": "string",
-          "example": "My First Post"
-        },
-        "content": {
-          "type": "string",
-          "example": "This is the content of the post."
-        },
-        "img": {
-          "type": "string",
-          "example": "http://example.com/image.jpg"
-        }
-      }
-    },
-    "NewPost": {
-      "type": "object",
-      "properties": {
-        "title": {
-          "type": "string",
-          "example": "My First Post"
-        },
-        "content": {
-          "type": "string",
-          "example": "This is the content of the post."
-        },
-        "img": {
-          "type": "string",
-          "example": "http://example.com/image.jpg"
-        }
-      }
-    },
     "User": {
       "type": "object",
       "properties": {
@@ -431,6 +396,10 @@
         "email": {
           "type": "string",
           "example": "john.doe@example.com"
+        },
+        "isAdmin": {
+          "type": "boolean",
+          "example": true
         }
       }
     },
@@ -461,6 +430,48 @@
         "password": {
           "type": "string",
           "example": "password123"
+        }
+      }
+    },
+    "Post": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "example": "12345"
+        },
+        "title": {
+          "type": "string",
+          "example": "My First Post"
+        },
+        "content": {
+          "type": "string",
+          "example": "This is the content of the post."
+        },
+        "author": {
+          "type": "string",
+          "example": "John Doe"
+        },
+        "img": {
+          "type": "string",
+          "example": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRNxqHVvjehI51bq2YwrC5iElwO7FcWlZGWiQ&s"
+        }
+      }
+    },
+    "NewPost": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string",
+          "example": "My First Post"
+        },
+        "content": {
+          "type": "string",
+          "example": "This is the content of the post."
+        },
+        "img": {
+          "type": "string",
+          "example": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRNxqHVvjehI51bq2YwrC5iElwO7FcWlZGWiQ&s"
         }
       }
     }
