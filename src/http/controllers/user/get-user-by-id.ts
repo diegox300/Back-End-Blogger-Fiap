@@ -1,6 +1,11 @@
 import { Request, Response, NextFunction } from 'express'
 import { makeFindUserByIdUseCase } from '../../../use-cases/factory/user/make-find-user-by-id-usecase' // Importing the factory function to create the use case for finding users by ID
 import { asyncHandler } from '../../../middleware/asyncHandler' // Importing middleware for handling async operations
+import { z } from 'zod'
+
+const idSchema = z.object({
+  id: z.string().uuid('Invalid ID format'), // ID must be a valid UUID format
+})
 
 // Get a user by ID
 export const getUserById = asyncHandler(async (req: Request, res: Response) => {

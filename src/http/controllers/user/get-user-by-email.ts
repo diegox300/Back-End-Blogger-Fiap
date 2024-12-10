@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction } from 'express'
+import { Request, Response } from 'express'
 import { makeFindUserByEmailUseCase } from '../../../use-cases/factory/user/make-find-user-by-email-usecase' // Importing the factory function to create the use case for finding users by email
 import { asyncHandler } from '../../../middleware/asyncHandler' // Importing middleware for handling async operations
 
