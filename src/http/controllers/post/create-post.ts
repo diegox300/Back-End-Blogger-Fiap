@@ -30,14 +30,14 @@ export const createPost = [
       const defaultImg =
         'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRNxqHVvjehI51bq2YwrC5iElwO7FcWlZGWiQ&s'
 
-      // Get the image path from the uploaded file or use the default image
-      const img = req.file ? req.file.path : defaultImg
+      // Get the image URL from the uploaded file or use the default image
+      const img = req.file ? (req.file as any).path : defaultImg
 
       // Handle the creation of the post and wait for the result
       const returnPost = await createPostUseCase.handler({
         title,
         content,
-        img, // Use the uploaded image or the default image
+        img, // Use the uploaded image URL or the default image
         author: new Types.ObjectId(req.user!._id.toString()), // Use the authenticated user's ID as the author
       })
 
