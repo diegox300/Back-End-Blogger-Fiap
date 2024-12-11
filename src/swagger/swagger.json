@@ -9,7 +9,7 @@
   "basePath": "/",
   "schemes": ["https"],
   "paths": {
-    "/login": {
+    "/users/login": {
       "post": {
         "summary": "Login a user",
         "description": "Authenticate a user and return a JWT token",

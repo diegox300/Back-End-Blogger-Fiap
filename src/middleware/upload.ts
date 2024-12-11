@@ -3,7 +3,7 @@ import path from 'path'
 import fs from 'fs'
 
 // Ensure the uploads directory exists
-const uploadDir = 'uploads/'
+const uploadDir = './src/uploads/posts/'
 if (!fs.existsSync(uploadDir)) {
   fs.mkdirSync(uploadDir)
 }
