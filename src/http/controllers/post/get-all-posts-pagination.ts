@@ -17,11 +17,12 @@ export const getAllPostsPagination = async (
   getAllPostsPaginationUseCase
     .execute(offset, limit)
     .then((result) => {
+      const totalPages = Math.ceil(result.total / limit) // Calculate the total number of pages
       const postsWithAuthor = result.posts.map((post) => ({
         ...post,
         author: (post.author as UserType).name, // Replace the author ID with the author's name
       }))
-      res.status(200).send({ posts: postsWithAuthor, totalPages: result.total })
+      res.status(200).send({ posts: postsWithAuthor, totalPages }) // Send the total number of pages
     })
     .catch(next) // Pass the error to the error handling middleware
 }
