@@ -23,13 +23,18 @@ export const createPost = asyncHandler(
     const { title, content, img } = await registreBodySchema.parseAsync(
       req.body,
     )
+
     const createPostUseCase = makeCreatePostUseCase() // Creating an instance of the use case for creating posts
+
+    // Define a default image if none is provided
+    const defaultImg =
+      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRNxqHVvjehI51bq2YwrC5iElwO7FcWlZGWiQ&s'
 
     // Handle the creation of the post and wait for the result
     const returnPost = await createPostUseCase.handler({
       title,
       content,
-      img,
+      img: img || defaultImg, // Use the provided image or the default image
       author: new Types.ObjectId(req.user!._id.toString()), // Use the authenticated user's ID as the author
     })
 
