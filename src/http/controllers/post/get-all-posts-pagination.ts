@@ -21,7 +21,7 @@ export const getAllPostsPagination = async (
         ...post,
         author: (post.author as UserType).name, // Replace the author ID with the author's name
       }))
-      res.status(200).send({ posts: postsWithAuthor, totalPage: result.total })
+      res.status(200).send({ posts: postsWithAuthor, totalPages: result.total })
     })
     .catch(next) // Pass the error to the error handling middleware
 }
