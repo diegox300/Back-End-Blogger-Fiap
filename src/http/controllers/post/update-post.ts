@@ -1,11 +1,12 @@
-import { Request, Response, NextFunction } from 'express' // Import Request, Response, and NextFunction types from express
+import { Request, Response, NextFunction } from 'express'
+import { z } from 'zod' // Import zod for schema validation
 import { makeUpdatePostUseCase } from '../../../use-cases/factory/posts/make-update-post-usecase' // Importing the factory function to create the use case for updating posts
 import { asyncHandler } from '../../../middleware/asyncHandler' // Importing middleware for handling async operations
-import { validateObjectId } from '../../../middleware/validateObjectId' // Importing middleware for validating ObjectId format
-import { z } from 'zod' // Importing Zod for schema validation
 import { UserType } from '../../../models/user.model' // Importing the UserType interface
+import { validateObjectId } from '../../../middleware/validateObjectId' // Importing the ObjectId validation middleware
+import upload from '../../../middleware/upload' // Importing the multer upload middleware
 
-// Defining the Zod validation schema for the post update data
+// Define the schema for validating update data
 const updatePostSchema = z.object({
   title: z.string().min(1, { message: 'Title cannot be empty' }), // Title must be a non-empty string
   content: z.string().min(1, { message: 'Content cannot be empty' }), // Content must be a non-empty string
@@ -27,10 +28,17 @@ const validateUpdatePost = (
 // Update a post by ID
 export const updatePostById = [
   validateObjectId, // Applying the ObjectId validation middleware
+  upload.single('img'), // Applying the multer middleware to handle single file upload
   validateUpdatePost, // Applying the Zod validation middleware
   asyncHandler(async (req: Request, res: Response) => {
     const { id } = req.params // Extracting the ID from the request parameters
     const updateData = req.body // Extracting update data from the request body
+
+    // Get the image URL from the uploaded file if available
+    if (req.file) {
+      updateData.img = (req.file as any).path
+    }
+
     const updatePostUseCase = makeUpdatePostUseCase() // Creating an instance of the use case for updating a post
     const updatedPost = await updatePostUseCase.execute(id, updateData) // Executing the update operation
 
