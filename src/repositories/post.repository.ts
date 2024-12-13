@@ -54,6 +54,7 @@ export class PostRepository {
   // Method to get all posts with pagination
   public async getAllPostsPagination(offset: number, limit: number) {
     const posts = await Post.find()
+      .sort({ createdAt: -1 })
       .skip(offset)
       .limit(limit)
       .populate('author')
