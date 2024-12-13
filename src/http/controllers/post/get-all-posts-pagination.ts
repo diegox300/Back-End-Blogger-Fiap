@@ -15,7 +15,7 @@ export const getAllPostsPagination = async (
   const offset = (page - 1) * limit // Calculate the offset
 
   getAllPostsPaginationUseCase
-    .execute(offset, limit)
+    .execute(offset, limit) // Pass only offset and limit
     .then((result) => {
       const totalPages = Math.ceil(result.total / limit) // Calculate the total number of pages
       const postsWithAuthor = result.posts.map((post) => ({
