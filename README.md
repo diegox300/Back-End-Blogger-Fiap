@@ -36,17 +36,6 @@ Além disso, os encontros semanais de todo o grupo desempenharam um papel crucia
 
 ## Ambientes
 
-Dividimos a api em dois ambientes. Produção (Main) e Desenvolvimento (developer).
-
-A introdução a ambientes de produção e desenvolvimento é fundamental para entender como o software é criado, testado e colocado em operação. Aqui estão os conceitos básicos:
-
-Desenvolvimento
-
-- Acesso a dados fictícios ou de teste,
-- Execução de testes unitários,
-- Configurações que podem ser alteradas frequentemente,
-- Foco em inovação e correção de bugs.
-
 Produção
 
 A branch Main reflete diretamente na API em produção, que está hospedada na Vercel. Qualquer atualização ou merge realizado nessa branch será automaticamente refletido na API em ambiente de produção, portanto, é essencial que o código seja revisado cuidadosamente antes de ser integrado para garantir a estabilidade do sistema.
@@ -55,7 +44,7 @@ A branch Main reflete diretamente na API em produção, que está hospedada na V
 
 ## Ambiente de Produção
 
-Branch Principal: Utilizamos a branch Main como nossa branch padrão para o ambiente de [produção](https://tech-challenge-2.vercel.app/api-docs/)
+Branch Principal: Utilizamos a branch Main como nossa branch padrão para o ambiente de [produção](https://tech-challenge-back-end.vercel.app/api-docs/)
 
 Deploy: O deployment das aplicações é realizado através da plataforma [Vercel](https://vercel.com/)
 
@@ -65,17 +54,13 @@ Banco de Dados: Para o armazenamento de dados em produção, utilizamos o banco 
 
 ## Ambiente de Desenvolvimento
 
-Branch Developer: Utilizamos a branch developer como nossa branch de desenvolvimento.
-
 Para utilizar a API local:
 
 - Clonar código no GitHub:
 
 ```bash
-git clone https://github.com/douglas-yokomizo/tech-challenge-2.git
+git clone https://github.com/diegox300/Back-End-Blogger-Fiap.git
 ```
-
-Mudar para a branch developer.
 
 ## Instalação da aplicação
 
