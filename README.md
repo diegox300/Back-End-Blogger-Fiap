@@ -131,8 +131,6 @@ Routes (Rotas): definem os endpoints da API e mapeiam as URLs para os controlado
 
 - Estrutura Básica do Projeto
 
-tech-challenge-2
-
 ```markdown
 src
 ├── app.ts
