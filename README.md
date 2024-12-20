@@ -18,7 +18,7 @@ In addition, the weekly group-wide meetings played a crucial role, fostering dis
 
 ## API Introduction Video
 
-![Watch the presentation video here](https://youtu.be/51WeIR_iRRY)
+[Watch the presentation video here](https://youtu.be/51WeIR_iRRY)
 
 ---
 
