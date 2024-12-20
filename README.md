@@ -1,28 +1,28 @@
-# BACK END DE BLOGGER V 1.1
+# BACK END FOR SCHOOL BLOGGER V 1.1
 
-BACK END DE BLOGGER V 1.1 é uma API em NodeJS que integra um Banco de Dados MongoDB, desenvolvida como atividade que integra os conhecimentos adquiridos durante o módulo de Backend e Qualidade de software da Pós Tech FIAP Full Stack Development do Grupo 1 Turma 2FSDT.
+BLOGGER BACK END V 1.1 is a NodeJS API that integrates a MongoDB Database, developed as an activity that integrates the knowledge acquired during the Backend and Software Quality module of the Post Tech FIAP Full Stack Development of Group 1 Class 2FSDT.
 
-## Objetivo
+## Objective
 
-O objetivo desta API é gerenciar postagens de blog por meio de operações de CRUD (Criar, Ler, Atualizar e Deletar), facilitando a gestão de conteúdo para administradores e autores.
+The purpose of this API is to manage blog posts through CRUD (Create, Read, Update and Delete) operations, securely using jwt to secure private routes, making content management easier for administrators and users.
 
-## Relato de experiências e desafios
+## Report of experiences and challenges
 
-Desde o início, o grupo decidiu versionar o código diretamente no GitHub, o que permitiu uma organização eficiente da estrutura inicial e dos padrões do projeto. A cada etapa da implementação da API, todos os integrantes eram notificados sobre novos Pull Requests (PRs) abertos na branch principal, garantindo a colaboração contínua e a revisão conjunta do código.
+From the beginning, the group decided to version the code directly on GitHub, which allowed for an efficient organization of the project's initial structure and standards. At each step of the API implementation, all members were notified of new Pull Requests (PRs) opened on the main branch, ensuring continuous collaboration and joint code review.
 
-As aulas da Fase 2 foram fundamentais para o desenvolvimento do projeto, fornecendo a base necessária para avançarmos com confiança. Sempre que surgiam dúvidas ou obstáculos, reassistir as aulas ou buscar soluções na internet tornou o processo de resolução de problemas mais ágil e eficaz.
+The Phase 2 lessons were instrumental in the development of the project, providing the foundation we needed to move forward with confidence. Whenever doubts or obstacles arose, rewatching classes or looking for solutions on the internet made the problem-solving process more agile and effective.
 
-Além disso, os encontros semanais de todo o grupo desempenharam um papel crucial, promovendo discussões e alinhamentos que contribuíram para o progresso contínuo e a conclusão bem-sucedida do projeto.
-
----
-
-## Video de apresentação da API
-
-[Assista ao vídeo de apresentação aqui](https://youtu.be/51WeIR_iRRY)
+In addition, the weekly group-wide meetings played a crucial role, fostering discussions and alignments that contributed to the continued progress and successful completion of the project.
 
 ---
 
-## Tecnologias utilizadas
+## API Introduction Video
+
+![Watch the presentation video here](https://youtu.be/51WeIR_iRRY)
+
+---
+
+## Technologies used
 
 - Node.js
 - TypeScript
@@ -31,52 +31,55 @@ Além disso, os encontros semanais de todo o grupo desempenharam um papel crucia
 - Jest
 - Swagger
 - Docker
+- Cloudinary
 
 ---
 
-## Ambientes
+## Environments
 
-Produção
+Production
 
-A branch Main reflete diretamente na API em produção, que está hospedada na Vercel. Qualquer atualização ou merge realizado nessa branch será automaticamente refletido na API em ambiente de produção, portanto, é essencial que o código seja revisado cuidadosamente antes de ser integrado para garantir a estabilidade do sistema.
-
----
-
-## Ambiente de Produção
-
-Branch Principal: Utilizamos a branch Main como nossa branch padrão para o ambiente de [produção](https://tech-challenge-back-end.vercel.app/api-docs/)
-
-Deploy: O deployment das aplicações é realizado através da plataforma [Vercel](https://vercel.com/)
-
-Banco de Dados: Para o armazenamento de dados em produção, utilizamos o banco de dados [MongoDB](https://www.mongodb.com/)
+The Main branch reflects directly on the API in production, which is hosted on Vercel. Any updates or merges performed on this branch will be automatically reflected in the API in the production environment, so it is essential that the code is reviewed carefully before being integrated to ensure the stability of the system.
 
 ---
 
-## Ambiente de Desenvolvimento
+## Production Environment
 
-Para utilizar a API local:
+Main Branch: We use the Main branch as our default branch for the [Production environment](https://tech-challenge-back-end.vercel.app/api-docs/)
 
-- Clonar código no GitHub:
+Deploy: The deployment of applications is carried out through the [Vercel platform](https://vercel.com/)
+
+Database: For data storage in production, we use the [MongoDB](https://www.mongodb.com/)
+
+Cloudinary: The Cloudinary platform was used to upload the images of the posts [Cloudinary](https://cloudinary.com/home)
+
+---
+
+## Development Environment
+
+To use the local API:
+
+- Clone code on GitHub:
 
 ```bash
 git clone https://github.com/diegox300/Back-End-Blogger-Fiap.git
 ```
 
-## Instalação da aplicação
+## Application installation
 
-Este projeto está pronto para ser executado em um ambiente Docker. Por este motivo, será necessária apenas a instalação do Docker, não sendo necessária a instalação manual do projeto. Também não será necessária a instalação manual do banco de dados (MongoDB).
+This project is ready to run in a Docker environment. For this reason, only the installation of Docker will be required, and the manual installation of the project will not be necessary. You also don't need to manually install the database (MongoDB).
 
-Caso não tenha o Docker instalado, siga as instruções para seu sistema operacional na [documentação oficial do Docker](https://docs.docker.com/get-started/get-docker/).
+If you don't have Docker installed, follow the instructions for your operating system in the [official Docker documentation](https://docs.docker.com/get-started/get-docker/).
 
-- Subir a aplicação utilizando Docker:
+- Start the application using Docker:
 
 ```bash
 docker-compose up --build
 ```
 
-##### Conferir os ENDPOINTS da api:
+##### Check the API ENDPOINTS:
 
-Para facilitar a integração e uso da nossa API, disponibilizamos uma documentação detalhada através do **Swagger**. Nela, você encontrará todos os endpoints disponíveis, métodos suportados, exemplos de requisições e respostas, bem como informações sobre parâmetros necessários.
+To facilitate the integration and use of our API, we provide detailed documentation through **Swagger**. In it, you will find all available endpoints, supported methods, examples of requests and responses, as well as information about required parameters.
 
 ```bash
 http://localhost:8000/api-docs
@@ -84,9 +87,9 @@ http://localhost:8000/api-docs
 
 ---
 
-##### Executando Testes Unitários Local:
+##### Running Local Unit Tests:
 
-Para garantir que todas as funcionalidades da API estejam funcionando corretamente, é recomendado executar os testes unitários. Siga as etapas abaixo para executar os testes:
+To ensure that all API functionality is working properly, it is recommended to run unit tests. Follow the steps below to run the tests:
 
 ```bash
 npm install
@@ -95,26 +98,26 @@ npm test
 
 ---
 
-Duvidas e feedback:
+Questions and feedback:
 
-Para dúvidas ou sugestões, entre em contato:
+For questions or suggestions, please contact:
 • Email: postechfiap4@gmail.com
 
 ---
 
-## Estrutura do Projeto - Padrão MVC
+## Project Structure - MVC Standard
 
-Este projeto segue uma abordagem baseada no padrão MVC (Model-View-Controller), adaptada para o desenvolvimento da API.
+This project follows an approach based on the MVC (Model-View-Controller) pattern, adapted for API development.
 
-A estrutura do projeto está organizada da seguinte forma:
+The project structure is organized as follows:
 
-Model (Camada de Modelos): é responsável pela representação e manipulação dos dados. Aqui, as definições de schemas, entidades e as interações com o banco de dados são implementadas. Exemplo: validação e persistência dos dados no MongoDB.
+Model: is responsible for representing and manipulating the data. Here, the definitions of schemas, entities, and interactions with the database are implemented. Example: Validation and persistence of data in MongoDB.
 
-Controller (Camada de Controladores): é responsável por receber as requisições HTTP, processá-las, invocar a lógica de negócios no Model, e devolver a resposta apropriada ao cliente. A lógica dos endpoints da API é centralizada nos controladores, que garantem que as requisições sejam tratadas adequadamente.
+Controller: is responsible for receiving HTTP requests, processing them, invoking business logic in the Model, and returning the appropriate response to the client. The logic of the API endpoints is centralized in the controllers, which ensure that requests are handled appropriately.
 
-Routes (Rotas): definem os endpoints da API e mapeiam as URLs para os controladores correspondentes. Elas permitem que as requisições HTTP sejam direcionadas para os controladores corretos com base no endpoint acessado.
+Routes: Define the API endpoints and map the URLs to the corresponding controllers. They allow HTTP requests to be directed to the correct controllers based on the endpoint accessed.
 
-- Estrutura Básica do Projeto
+- Basic Project Structure
 
 ```markdown
 src
@@ -231,17 +234,17 @@ src
 └── login-user-usecase.ts
 ```
 
-A API foca na gestão de dados e respostas via JSON, onde a camada View não é necessária, já que não há rendering de interfaces.
+The API focuses on data management and responses via JSON, where the View layer is not necessary, since there is no rendering of interfaces.
 
-No projeto, foi aplicada a Inversão de Dependência (DIP) para desacoplar módulos de alto e baixo nível, permitindo maior flexibilidade na troca de implementações e facilitando a manutenção e testes. Com o uso de injeção de dependência, a aplicação torna-se mais modular e pronta para crescer.
+In the project, Dependency Inversion (DIP) was applied to decouple high- and low-level modules, allowing greater flexibility in switching implementations and facilitating maintenance and testing. With the use of dependency injection, the application becomes more modular and ready to grow.
 
-Além disso, os outros princípios do SOLID foram seguidos para garantir escalabilidade:
+In addition, the other principles of SOLID have been followed to ensure scalability:
 
-- SRP: Cada classe tem uma única responsabilidade,
-- OCP: O código está aberto para extensões sem precisar de modificações,
-- LSP: Classes derivadas podem substituir as classes base sem alterar o comportamento,
-- ISP: Interfaces específicas evitam dependências desnecessárias.
+- SRP: Each class has a single responsibility,
+- OCP: The code is open to extensions without needing modifications,
+- LSP: Derived classes can override base classes without changing behavior,
+- ISP: Specific interfaces avoid unnecessary dependencies.
 
-Esses princípios juntos promovem um design flexível e escalável, facilitando a adição de novas funcionalidades sem comprometer a estrutura existente.
+These principles together promote a flexible and scalable design, making it easy to add new functionality without compromising the existing structure.
 
 ---
