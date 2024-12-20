@@ -6,6 +6,8 @@ BLOGGER BACK END V 1.1 is a NodeJS API that integrates a MongoDB Database, devel
 
 The purpose of this API is to manage blog posts through CRUD (Create, Read, Update and Delete) operations, securely using jwt to secure private routes, making content management easier for administrators and users.
 
+The front end that consumes this API is [here](https://github.com/diegox300/Front-Blog-for-School)
+
 ## Report of experiences and challenges
 
 From the beginning, the group decided to version the code directly on GitHub, which allowed for an efficient organization of the project's initial structure and standards. At each step of the API implementation, all members were notified of new Pull Requests (PRs) opened on the main branch, ensuring continuous collaboration and joint code review.
