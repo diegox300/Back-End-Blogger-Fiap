@@ -1,51 +1,23 @@
-import { Request, Response, NextFunction } from 'express' // Import Request, Response, and NextFunction types from express
+import { Request, Response } from 'express' // Import Request, Response, and NextFunction types from express
 import { z } from 'zod' // Import zod for schema validation
-import { makeCreatePostUseCase } from '../../../use-cases/factory/posts/make-create-posts-usecase' // Importing the factory function to create the use case for creating posts
+import { makeCreateUseCase } from '../../../use-cases/factory/make-create-posts-usecase' // Importing the factory function to create the use case for creating posts
 import { asyncHandler } from '../../../middleware/asyncHandler' // Importing middleware for handling async operations
-import { UserType } from '../../../models/user.model' // Importing the UserType interface
-import { Types } from 'mongoose' // Importing Types from mongoose
-import upload from '../../../middleware/upload' // Importing the multer upload middleware
-
-interface CustomRequest extends Request {
-  user?: UserType // Extending the Request interface with the user property
-}
 
 // Create a new post
-export const createPost = [
-  upload.single('img'), // Applying the multer middleware to handle single file upload
-  asyncHandler(
-    async (req: CustomRequest, res: Response, next: NextFunction) => {
-      // Define the schema for validating request body
-      const registreBodySchema = z.object({
-        title: z.string().min(1, 'Title is required'), // Title must be a non-empty string
-        content: z.string().min(1, 'Content is required'), // Content must be a non-empty string
-      })
+export const createPost = asyncHandler(async (req: Request, res: Response) => {
+  // Define the schema for validating request body
+  const registreBodySchema = z.object({
+    title: z.string().min(1, 'Title is required'), // Title must be a non-empty string
+    content: z.string().min(1, 'Content is required'), // Content must be a non-empty string
+  })
 
-      // Parse and validate the request body against the schema asynchronously
-      const { title, content } = await registreBodySchema.parseAsync(req.body)
+  // Parse and validate the request body against the schema asynchronously
+  const { title, content } = await registreBodySchema.parseAsync(req.body)
+  const createPostUseCase = makeCreateUseCase() // Creating an instance of the use case for creating posts
 
-      const createPostUseCase = makeCreatePostUseCase() // Creating an instance of the use case for creating posts
+  // Handle the creation of the post and wait for the result
+  const returnPost = await createPostUseCase.handler({ title, content })
 
-      // Define a default image if none is provided
-      const defaultImg =
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRNxqHVvjehI51bq2YwrC5iElwO7FcWlZGWiQ&s'
-
-      // Get the image URL from the uploaded file or use the default image
-      const img = req.file ? (req.file as any).path : defaultImg
-
-      // Handle the creation of the post and wait for the result
-      const returnPost = await createPostUseCase.handler({
-        title,
-        content,
-        img, // Use the uploaded image URL or the default image
-        author: new Types.ObjectId(req.user!._id.toString()), // Use the authenticated user's ID as the author
-      })
-
-      // Send a 201 Created response with the created post, including the author's name
-      res.status(201).send({
-        ...returnPost.toObject(),
-        author: (returnPost.author as UserType).name, // Replace the author ID with the author's name
-      })
-    },
-  ),
-]
+  // Send a 201 Created response with the created post
+  res.status(201).send(returnPost)
+})

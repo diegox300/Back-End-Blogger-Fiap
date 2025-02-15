@@ -1,8 +1,7 @@
 import { Request, Response } from 'express' // Import Request and Response types from express
-import { makeFindPostsCase } from '../../../use-cases/factory/posts/make-find-posts-usecase' // Importing the factory function to create the use case for finding posts
+import { makeFindPostsCase } from '../../../use-cases/factory/make-find-posts-usecase' // Importing the factory function to create the use case for finding posts
 import { validateObjectId } from '../../../middleware/validateObjectId' // Importing middleware for validating ObjectId format
 import { asyncHandler } from '../../../middleware/asyncHandler' // Importing middleware for handling async operations
-import { UserType } from '../../../models/user.model' // Importing the UserType interface
 
 // Get a single post by ID
 export const getPostById = [
@@ -17,10 +16,7 @@ export const getPostById = [
     if (!post) {
       return res.status(404).json({ message: `ID ${id} not found` }) // Respond with 404 if the post is not found
     } else {
-      return res.status(200).send({
-        ...post,
-        author: (post.author as UserType).name, // Replace the author ID with the author's name
-      })
+      return res.status(200).send(post) // Respond with the found post and a 200 status
     }
   }),
 ]

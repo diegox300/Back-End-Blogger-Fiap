@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express'
-import { makeGetAllUsersUseCase } from '../../../use-cases/factory/user/make-get-all-users-usecase' // Importing the factory function to create the use case for getting all users
+import { makeGetAllUsersUseCase } from '../../../use-cases/factory/make-get-all-users-usecase'
 
 // Get all users
 export const getAllUsers = async (
@@ -7,7 +7,7 @@ export const getAllUsers = async (
   res: Response,
   next: NextFunction,
 ) => {
-  const getAllUsersUseCase = makeGetAllUsersUseCase() // Creating an instance of the use case for getting all users
+  const getAllUsersUseCase = makeGetAllUsersUseCase()
 
   getAllUsersUseCase
     .execute()
