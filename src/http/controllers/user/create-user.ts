@@ -14,6 +14,11 @@ export const createUser = asyncHandler(async (req: Request, res: Response) => {
     isAdmin: z.boolean().optional(), // isAdmin is an optional boolean field
   })
 
+  // Convert isAdmin to boolean if it exists
+  if (req.body.isAdmin !== undefined) {
+    req.body.isAdmin = req.body.isAdmin === 'true' || req.body.isAdmin === true
+  }
+
   // Parse and validate the request body against the schema asynchronously
   const { name, email, password, isAdmin } =
     await registerBodySchema.parseAsync(req.body)
