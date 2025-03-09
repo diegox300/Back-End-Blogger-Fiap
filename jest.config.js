@@ -15,4 +15,5 @@ module.exports = {
   collectCoverageFrom: ['src/**/*.ts'],
   coverageDirectory: 'coverage',
   coverageReporters: ['text', 'lcov'],
+  moduleDirectories: ['node_modules', 'src'],
 }

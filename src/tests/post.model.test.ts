@@ -6,6 +6,8 @@ import mongoose from 'mongoose' // Import mongoose for MongoDB interactions
 import app from '../app' // Import the Express application
 import { env } from '../env' // Import environment variables
 
+jest.mock('../models/post.model') // Mock the Post model for testing
+
 // Define the MongoDB connection URI, using the environment variable or a default value
 const mongoUri =
   env.MONGO_URI || 'mongodb://localhost:27017/tech-challenge-2-test'
