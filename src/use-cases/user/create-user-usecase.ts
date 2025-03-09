@@ -4,7 +4,12 @@ import { EmailAlreadyExistsError } from '../../errors/EmailAlreadyExistsError' /
 export class CreateUserUseCase {
   constructor(private userRepository: UserRepository) {} // Injecting the UserRepository dependency
 
-  async handler(user: { name: string; email: string; password: string }) {
+  async handler(user: {
+    name: string
+    email: string
+    password: string
+    isAdmin?: boolean
+  }) {
     // Check if the email already exists
     const existingUser = await this.userRepository.findByEmail(user.email)
     if (existingUser) {
