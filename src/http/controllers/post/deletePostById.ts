@@ -1,5 +1,5 @@
 import { Request, Response } from 'express' // Import Request and Response types from express
-import { makeDeletePostUseCase } from '../../../use-cases/factory/make-delete-post-usecase' // Importing the factory function to create the use case for deleting posts
+import { makeDeletePostUseCase } from '../../../use-cases/factory/posts/make-delete-post-usecase' // Importing the factory function to create the use case for deleting posts
 import { asyncHandler } from '../../../middleware/asyncHandler' // Importing middleware for handling async operations
 import { validateObjectId } from '../../../middleware/validateObjectId' // Importing middleware for validating ObjectId format
 

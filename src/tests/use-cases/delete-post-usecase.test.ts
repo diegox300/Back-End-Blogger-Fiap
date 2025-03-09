@@ -1,44 +1,87 @@
 /* eslint-disable no-undef */
+import 'dotenv/config' // Loads environment variables from the .env.test file
+import request from 'supertest'
+import mongoose from 'mongoose'
+import app from '../../app'
+import Post, { PostType } from '../../models/post.model'
+import User, { UserType } from '../../models/user.model'
+import { env } from '../../env/index'
 
-import request from 'supertest' // Import supertest for testing HTTP requests
-import express from 'express' // Import the express framework
-import { deletePostById } from '../../http/controllers/post/deletePostById' // Import the controller for deleting a post
-import { makeDeletePostUseCase } from '../../use-cases/factory/make-delete-post-usecase' // Import the factory function for creating a delete post use case
+// MongoDB URI for testing, defaults to a local instance if not provided
+const mongoUri =
+  env.MONGO_URI || 'mongodb://localhost:27017/tech-challenge-2-test'
 
-jest.mock('../../use-cases/factory/make-delete-post-usecase') // Mock the use case factory
+// Connect to MongoDB before all tests
+beforeAll(async () => {
+  console.log('Connecting to MongoDB...')
+  await mongoose.connect(mongoUri) // Establish connection to the database
+  console.log('Connected to MongoDB')
+}, 30000) // Increase timeout to 30 seconds
 
-const app = express() // Create a new Express application
-app.use(express.json()) // Enable JSON request parsing
-app.delete('/posts/:id', deletePostById) // Define the DELETE endpoint for posts
+describe('Delete Post by ID', () => {
+  let postId: string // Variable to hold the ID of the post to be deleted
+  let userId: string // Variable to hold the ID of the user
 
-describe('DELETE /posts/:id', () => {
-  it('should respond with a success message if the post was deleted', async () => {
-    const mockDeletePostUseCase = {
-      execute: jest.fn().mockResolvedValue(true), // Mock the use case to return success
-    }
-    ;(makeDeletePostUseCase as jest.Mock).mockReturnValue(mockDeletePostUseCase) // Mock the factory to return the mock use case
+  // Create a test user and post before each test
+  beforeEach(async () => {
+    const user = new User({
+      name: 'Test User',
+      email: 'testuser@example.com',
+      password: 'password123',
+      isAdmin: true,
+    })
+    const savedUser: UserType = await user.save() // Save the user to the database
+    userId = savedUser._id.toString() // Store the ID of the saved user
 
-    const response = await request(app).delete(
-      '/posts/123456789012345678901234', // Simulate deleting a post with a specific ID
-    )
+    const post = new Post({
+      title: 'Test Post',
+      content: 'This is a test post',
+      author: userId,
+    })
+    const savedPost: PostType = await post.save() // Save the post to the database
+    postId = savedPost._id.toString() // Store the ID of the saved post
 
-    expect(response.status).toBe(200) // Expect a 200 OK response
-    expect(response.body).toEqual({ message: 'Post deleted successfully' }) // Check the success message
+    // Add the post ID to the user's list of posts
+    await User.findByIdAndUpdate(userId, { $push: { posts: postId } })
   })
 
-  it('should respond with a 404 message if the post was not found', async () => {
-    const mockDeletePostUseCase = {
-      execute: jest.fn().mockResolvedValue(false), // Mock the use case to return failure
-    }
-    ;(makeDeletePostUseCase as jest.Mock).mockReturnValue(mockDeletePostUseCase) // Mock the factory to return the mock use case
+  // Clean up the database after each test
+  afterEach(async () => {
+    await Post.deleteMany({}) // Delete all posts from the database
+    await User.deleteMany({}) // Delete all users from the database
+  })
 
-    const response = await request(app).delete(
-      '/posts/123456789012345678901234', // Simulate deleting a post with a specific ID
-    )
+  // Test case for deleting a post with a non-existent ID
+  it('should return 404 if post ID is not found', async () => {
+    const nonExistentId = new mongoose.Types.ObjectId().toString() // Generate a new non-existent ID
+    const res = await request(app).delete(`/posts/${nonExistentId}`) // Attempt to delete the post
+    expect(res.statusCode).toEqual(404) // Check if the response status code is 404 (Not Found)
+    expect(res.body).toHaveProperty('message', `ID ${nonExistentId} not found`) // Check the error message
+  })
 
-    expect(response.status).toBe(404) // Expect a 404 Not Found response
-    expect(response.body).toEqual({
-      message: 'ID 123456789012345678901234 not found', // Check the error message
+  // Test case for handling an invalid post ID
+  it('should return 400 for invalid post ID', async () => {
+    const invalidId = '12345' // Invalid ID format
+    const res = await request(app).delete(`/posts/${invalidId}`) // Attempt to delete the post
+    expect(res.statusCode).toEqual(400) // Check if the response status code is 400 (Bad Request)
+  })
+
+  // Test case to handle errors when deleting a post by ID
+  it('should handle error when deleting a post by ID', async () => {
+    jest.spyOn(Post, 'findByIdAndDelete').mockImplementationOnce(() => {
+      throw new Error('Database error') // Simulate a database error
     })
+    const res = await request(app).delete(`/posts/${postId}`) // Attempt to delete the post
+    expect(res.statusCode).toEqual(500) // Check if the response status code is 500 (Internal Server Error)
+  })
+
+  // Test case for deleting a post and removing the post ID from the user's list of posts
+  it("should delete a post and remove the post ID from the user's list of posts", async () => {
+    const res = await request(app).delete(`/posts/${postId}`) // Attempt to delete the post
+    expect(res.statusCode).toEqual(200) // Check if the response status code is 200 (OK)
+    expect(res.body).toHaveProperty('message', 'Post deleted successfully') // Check the success message
+
+    const user = await User.findById(userId) // Fetch the user from the database
+    expect(user?.posts).not.toContain(postId) // Check if the post ID is removed from the user's list of posts
   })
 })

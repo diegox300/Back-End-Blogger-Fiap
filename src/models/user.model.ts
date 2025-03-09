@@ -1,9 +1,13 @@
-import { Schema, model, Document } from 'mongoose' // Importing Schema, model, and Document from mongoose
+import { Schema, model, Document, ObjectId } from 'mongoose' // Importing Schema, model, and Document from mongoose
 
 // Define the UserType interface that extends Document from mongoose
 export interface UserType extends Document {
-  name: string // Name user
-  admin: boolean // User level
+  _id: ObjectId
+  name: string // Name of the user
+  email: string // Email of the user
+  password: string // Password of the user
+  posts: ObjectId[] // List of posts created by the user
+  isAdmin: boolean // Whether the user is an admin
   createdAt: Date // Creation date of the user
   updatedAt: Date // Last update date of the user
 }
@@ -12,7 +16,10 @@ export interface UserType extends Document {
 const userSchema = new Schema<UserType>(
   {
     name: { type: String, required: true }, // Name field is a required string
-    admin: { type: Boolean, required: true }, // Admin field is a required boolean
+    email: { type: String, required: true, unique: true }, // Email field is a required string and must be unique
+    password: { type: String, required: true }, // Password field is a required string
+    posts: [{ type: Schema.Types.ObjectId, ref: 'Post' }], // Posts field is an array of ObjectIds that reference the Post model
+    isAdmin: { type: Boolean, default: true }, // isAdmin field is a boolean with a default value of false
   },
   {
     timestamps: true, // Automatically adds createdAt and updatedAt fields

@@ -1,12 +1,12 @@
 /* eslint-disable no-undef */
 
-import { UpdatePostUseCase } from '../../use-cases/update-post-usecase' // Import the use case for updating a post
+import { UpdatePostUseCase } from '../../use-cases/posts/update-post-usecase' // Import the use case for updating a post
 import { PostRepository } from '../../repositories/post.repository' // Import the Post repository interface
 import { PostType } from '../../models/post.model' // Import the Post model type
 import request from 'supertest' // Import supertest for making HTTP requests in tests
 import express from 'express' // Import express for setting up the application
 import { updatePostById } from '../../http/controllers/post/update-post' // Import the controller for updating a post
-import { makeUpdatePostUseCase } from '../../use-cases/factory/make-update-post-usecase' // Import factory for creating the use case
+import { makeUpdatePostUseCase } from '../../use-cases/factory/posts/make-update-post-usecase' // Import factory for creating the use case
 
 // Mocking the PostRepository
 const mockPostRepository = {

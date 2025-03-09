@@ -1,21 +1,14 @@
-// Import the Post model and Document type from mongoose
-import Post from '../models/post.model' // Importing the Post model for database operations
-import { Document } from 'mongoose' // Importing Document type from mongoose for type definition
+import { Types } from 'mongoose'
+import Post, { PostType } from '../models/post.model' // Importing the Post model and PostType interface
+import User from '../models/user.model' // Importing the User model
 
-// Define the PostType interface that extends Document from mongoose
-interface PostType extends Document {
-  title: string // Title of the post
-  content: string // Content of the post
-  createdAt: Date // Creation date of the post
-  updatedAt: Date // Last update date of the post
-}
-
-// Class representing the Post repository
 export class PostRepository {
   // Asynchronous method to create a new post
   async createPost(post: {
-    title: string // Title of the post to be created
-    content: string // Content of the post to be created
+    title: string
+    content: string
+    img?: string
+    author: Types.ObjectId
   }): Promise<PostType> {
     // Create a new instance of the Post model with the provided data
     const newPost = new Post(post)
@@ -23,47 +16,92 @@ export class PostRepository {
     // Save the new post to the database
     await newPost.save()
 
+    // Populate the author field
+    await newPost.populate('author')
+
     // Return the new post as PostType
     return newPost as PostType
   }
 
+  // Method to get all posts
+  public async getAllPosts(): Promise<PostType[]> {
+    const posts = await Post.find().populate('author').exec()
+    return posts.map((post) => post.toObject() as PostType)
+  }
+
+  // Method to find a post by its ID
   public async getPostById(id: string): Promise<PostType | null> {
-    // Find a post by its ID
-    const postById = await Post.findById(id)
+    // Find a post by its ID and populate the author field
+    const postById = await Post.findById(id).populate('author').exec()
 
     // Return the found post or null if not found
-    return postById as PostType | null
+    return postById ? (postById.toObject() as PostType) : null
   }
 
-  async findById(id: string): Promise<PostType | null> {
-    // Finding a post by its ID with execution
-    return Post.findById(id).exec() // Executing the query to find the post
+  // Method to find posts by query
+  public async find(query: any): Promise<PostType[]> {
+    const posts = await Post.find(query).exec()
+    return posts.map((post) => post.toObject() as PostType)
   }
 
-  public async getAllPosts(): Promise<PostType[]> {
-    // Find all posts
+  // Method to find posts by user ID
+  async findPostsByUserId(userId: string): Promise<PostType[]> {
+    // Find posts by user ID
+    const posts = await Post.find({ author: userId }).exec()
+    return posts.map((post) => post.toObject() as PostType)
+  }
+
+  // Method to get all posts with pagination
+  public async getAllPostsPagination(offset: number, limit: number) {
     const posts = await Post.find()
-
-    // Return the found posts
-    return posts as PostType[]
+      .sort({ createdAt: -1 })
+      .skip(offset)
+      .limit(limit)
+      .populate('author')
+      .exec()
+    const total = await Post.countDocuments()
+    return { posts: posts.map((post) => post.toObject() as PostType), total }
   }
 
-  // Asynchronous method to delete a post by ID
+  // Method to find a post by its ID
+  async findById(id: string): Promise<PostType | null> {
+    // Encontrar o post pelo ID e popular o campo 'author'
+    const post = await Post.findById(id).populate('author').exec() // Use o populate aqui
+
+    // Retorna o post populado ou null se não encontrado
+    return post ? (post.toObject() as PostType) : null
+  }
+
+  // Method to delete a post by its ID
   public async deletePostById(id: string): Promise<PostType | null> {
-    // Finding and deleting a post by its ID
+    // Find and delete the post by its ID
     const deletedPost = await Post.findByIdAndDelete(id)
-    return deletedPost as PostType | null // Returning the deleted post or null
+
+    if (deletedPost) {
+      // Remove the post ID from the user's list of posts
+      await User.updateOne(
+        { _id: deletedPost.author },
+        { $pull: { posts: deletedPost._id } },
+      ).exec()
+    }
+
+    // Return the deleted post or null if not found
+    return deletedPost ? (deletedPost.toObject() as PostType) : null
   }
 
-  // Asynchronous method to update a post by ID
+  // Method to update a post by its ID
   public async updatePostById(
     id: string,
     updateData: Partial<PostType>,
   ): Promise<PostType | null> {
-    // Finding and updating a post by its ID with new data
+    // Update a post by its ID
     const updatedPost = await Post.findByIdAndUpdate(id, updateData, {
-      new: true, // Returning the updated post
+      new: true,
     })
-    return updatedPost as PostType | null // Returning the updated post or null
+      .populate('author')
+      .exec()
+
+    // Return the updated post or null if not found
+    return updatedPost ? (updatedPost.toObject() as PostType) : null
   }
 }
