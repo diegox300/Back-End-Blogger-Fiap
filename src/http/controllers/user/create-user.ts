@@ -11,12 +11,12 @@ export const createUser = asyncHandler(async (req: Request, res: Response) => {
     name: z.string().min(1, 'Name is required'), // Name must be a non-empty string
     email: z.string().email('Invalid email format'), // Email must be a valid email format
     password: z.string().min(6, 'Password must be at least 6 characters long'), // Password must be at least 6 characters long
+    isAdmin: z.boolean().optional(), // isAdmin is an optional boolean field
   })
 
   // Parse and validate the request body against the schema asynchronously
-  const { name, email, password } = await registerBodySchema.parseAsync(
-    req.body,
-  )
+  const { name, email, password, isAdmin } =
+    await registerBodySchema.parseAsync(req.body)
 
   const createUserUseCase = makeCreateUserUseCase() // Creating an instance of the use case for creating users
 
@@ -27,6 +27,7 @@ export const createUser = asyncHandler(async (req: Request, res: Response) => {
     name,
     email,
     password: hashedPassword,
+    isAdmin, // Pass the isAdmin field to the use case
   })
 
   // removed password from the response
