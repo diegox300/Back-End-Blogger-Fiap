@@ -5,6 +5,7 @@ import request from 'supertest' // Import the supertest library for HTTP asserti
 import mongoose from 'mongoose' // Import mongoose for database interactions
 import app from '../../../../app' // Import the application instance
 import Post, { PostType } from '../../../../models/post.model' // Import the Post model
+import User from '../../../../models/user.model' // Import the User model
 import { env } from '../../../../env' // Import environment variables
 
 jest.setTimeout(30000)
@@ -22,12 +23,23 @@ beforeAll(async () => {
 
 describe('Find Post by ID', () => {
   let postId: string // Variable to hold the ID of the post
+  let userId: string // Variable to hold the ID of the user
 
   // Create a test post before each test
   beforeEach(async () => {
+    // Create a user for the author field
+    const user = new User({
+      name: 'Test User',
+      email: 'testuser@example.com',
+      password: 'password123',
+    })
+    const savedUser = await user.save()
+    userId = savedUser._id.toString() // Store the ID of the created user
+
     const post = new Post({
       title: 'Test Post',
       content: 'This is a test post',
+      author: userId, // Set the author as the created user ID
     })
     const savedPost: PostType = await post.save() // Save the post to the database
     postId = savedPost._id.toString() // Store the ID of the saved post
@@ -36,6 +48,7 @@ describe('Find Post by ID', () => {
   // Clean up the database after each test
   afterEach(async () => {
     await Post.deleteMany({}) // Delete all posts from the database
+    await User.deleteMany({}) // Delete all users from the database
   })
 
   // Test case for handling a non-existent post ID

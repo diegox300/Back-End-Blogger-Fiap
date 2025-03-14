@@ -6,6 +6,13 @@ import mongoose from 'mongoose' // Import mongoose for MongoDB interactions
 import app from '../../../../app' // Import the application instance
 import Post, { PostType } from '../../../../models/post.model' // Import the Post model
 import { env } from '../../../../env' // Import environment variables
+import User from '../../../../models/user.model' // Import the User model for creating a user
+import { Request, Response, NextFunction } from 'express'
+
+// Mock the JWT authentication middleware to skip authentication
+jest.mock('../../../../middleware/auth', () => ({
+  authMiddleware: (req: Request, res: Response, next: NextFunction) => next(), // Just call next() to bypass authentication
+}))
 
 // MongoDB URI for testing; defaults to a local instance if not provided
 const mongoUri =
@@ -31,12 +38,23 @@ afterAll(async () => {
 
 describe('Update Post by ID', () => {
   let postId: string // Variable to hold the post ID for testing
+  let userId: string // Variable to hold the user ID for the 'author'
 
   // Create a new post before each test and store its ID
   beforeEach(async () => {
+    // Create a new user to be the author of the post
+    const user = new User({
+      name: 'Test User',
+      email: 'testuser@example.com',
+      password: 'password123', // Add other fields as required by your User model
+    })
+    const savedUser = await user.save() // Save the user
+    userId = savedUser._id.toString() // Store the user ID
+
     const post = new Post({
       title: 'Test Post',
       content: 'This is a test post',
+      author: userId, // Pass the ObjectId of the user as the author
     })
     const savedPost: PostType = await post.save() // Explicitly type the saved post
     postId = savedPost._id.toString() // Store the post ID as a string
@@ -45,6 +63,7 @@ describe('Update Post by ID', () => {
   // Cleanup after each test
   afterEach(async () => {
     await Post.deleteMany({}) // Delete all posts from the database
+    await User.deleteMany({}) // Optionally clean up the user collection
   })
 
   // Test case for handling a non-existent post ID

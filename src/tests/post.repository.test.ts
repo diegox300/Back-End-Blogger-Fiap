@@ -20,6 +20,7 @@ describe('PostRepository', () => {
       _id: new mongoose.Types.ObjectId('123456789012345678901234'), // Set a specific ID for the mock post
       title: 'Test Post', // Set the title of the mock post
       content: 'This is a test post', // Set the content of the mock post
+      autor: 'Jack Chan',
       createdAt: new Date(), // Set the creation date
       updatedAt: new Date(), // Set the update date
     }) as PostType

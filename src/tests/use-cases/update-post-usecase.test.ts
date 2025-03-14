@@ -14,7 +14,7 @@ const mockPostRepository = {
 }
 
 // Mock the factory function for creating the use case
-jest.mock('../../use-cases/factory/make-update-post-usecase')
+jest.mock('../../use-cases/factory/posts/make-update-post-usecase')
 
 // Set up the express application
 const app = express()
@@ -99,6 +99,7 @@ describe('UpdatePostUseCase', () => {
       id: '123456789012345678901234',
       title: 'Updated Title',
       content: 'Updated Content',
+      author: { name: 'John Waine' },
     }
 
     // Mock the use case execution
@@ -113,6 +114,11 @@ describe('UpdatePostUseCase', () => {
       .send({ title: 'Updated Title', content: 'Updated Content' })
 
     expect(response.status).toBe(200) // Check that the response status is 200
-    expect(response.body).toEqual(mockUpdatedPost) // Verify that the response body matches the updated post
+    expect(response.body).toEqual({
+      id: '123456789012345678901234',
+      title: 'Updated Title',
+      content: 'Updated Content',
+      author: 'John Waine',
+    })
   })
 })

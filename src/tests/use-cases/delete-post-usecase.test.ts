@@ -6,6 +6,12 @@ import app from '../../app'
 import Post, { PostType } from '../../models/post.model'
 import User, { UserType } from '../../models/user.model'
 import { env } from '../../env/index'
+import { Request, Response, NextFunction } from 'express'
+
+// Mockando o middleware de autenticação para ignorá-lo durante os testes
+jest.mock('../../middleware/auth', () => ({
+  authMiddleware: (req: Request, res: Response, next: NextFunction) => next(), // Ignora o middleware, chamando next() diretamente
+}))
 
 // MongoDB URI for testing, defaults to a local instance if not provided
 const mongoUri =
