@@ -30,7 +30,7 @@ describe('Find Post by ID', () => {
     // Create a user for the author field
     const user = new User({
       name: 'Test User',
-      email: 'testuser@example.com',
+      email: 'testusergood@example.com',
       password: 'password123',
     })
     const savedUser = await user.save()
