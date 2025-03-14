@@ -44,7 +44,7 @@ describe('Post Routes', () => {
     const user = new User({
       name: 'Test User',
       username: 'testuser',
-      email: 'testuser@example.com',
+      email: 'testuserbad@example.com',
       password: 'password123',
     })
     const savedUser = await user.save() // Save the user to the database

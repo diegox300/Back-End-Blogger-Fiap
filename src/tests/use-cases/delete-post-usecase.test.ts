@@ -32,7 +32,7 @@ describe('Delete Post by ID', () => {
   beforeEach(async () => {
     const user = new User({
       name: 'Test User',
-      email: 'testuser@example.com',
+      email: 'testusercase@example.com',
       password: 'password123',
       isAdmin: true,
     })
