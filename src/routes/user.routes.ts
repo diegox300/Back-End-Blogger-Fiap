@@ -20,6 +20,6 @@ router.get('/email/:email', getUserByEmail) // Route to get a user by email
 
 router.get('/id/:id', getUserById) // Route to get a user by ID
 
-router.put('/users/:id', updateUserById) // Define the route for updating a user by ID
+router.put('/:id', updateUserById) // Define the route for updating a user by ID
 
 export default router // Exporting the configured router for use in other modules
