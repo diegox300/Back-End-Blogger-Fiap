@@ -45,10 +45,10 @@ export class UserRepository {
 
   // Asynchronous method to update a user by ID
   async updateUser(
-    id: string,
+    _id: string,
     updateData: Partial<UserType>,
   ): Promise<UserType | null> {
     // Find a user by their ID and update with the provided data
-    return User.findByIdAndUpdate(id, updateData, { new: true }).exec()
+    return User.findByIdAndUpdate(_id, updateData, { new: true }).exec()
   }
 }
