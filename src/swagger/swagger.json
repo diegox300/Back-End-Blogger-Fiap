@@ -420,6 +420,10 @@
         "password": {
           "type": "string",
           "example": "password123"
+        },
+        "isAdmin": {
+          "type": "boolean",
+          "example": true
         }
       }
     },
