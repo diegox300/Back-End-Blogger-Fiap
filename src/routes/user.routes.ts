@@ -12,9 +12,6 @@ const router = Router() // Creating an instance of the Express Router
 
 router.get('/', getAllUsers) // Route to get all users
 
-// Define the route for updating a user by ID
-router.put('/users/:id', updateUserById)
-
 router.post('/', createUser) // Route to create a new user
 
 router.post('/login', loginUser) // Route to login a user)
@@ -22,5 +19,7 @@ router.post('/login', loginUser) // Route to login a user)
 router.get('/email/:email', getUserByEmail) // Route to get a user by email
 
 router.get('/id/:id', getUserById) // Route to get a user by ID
+
+router.put('/users/:id', updateUserById) // Define the route for updating a user by ID
 
 export default router // Exporting the configured router for use in other modules
