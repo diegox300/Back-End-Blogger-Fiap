@@ -13,7 +13,7 @@ export class EditUserUseCase {
 
   async handler({ _id, name, email, password, isAdmin }: EditUserDTO) {
     // Find the user by ID
-    const user = await this.userRepository.findById(id)
+    const user = await this.userRepository.findById(_id)
     if (!user) {
       throw new Error('User not found')
     }
