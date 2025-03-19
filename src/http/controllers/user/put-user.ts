@@ -29,7 +29,8 @@ export const editUser = asyncHandler(async (req: Request, res: Response) => {
   )
 
   const findUserByIdUseCase = makeFindUserByIdUseCase() // Creating an instance of the use case for finding users by ID
-  const user = await findUserByIdUseCase.handler(req.params.id) // Find the user by ID
+  const { id } = req.params // Get the ID from the request parameters
+  const user = await findUserByIdUseCase.handler(id) // Find the user by ID
 
   if (!user) {
     return res.status(404).send({ message: 'User not found' }) // Return 404 if user is not found
@@ -44,7 +45,7 @@ export const editUser = asyncHandler(async (req: Request, res: Response) => {
 
   // Handle the update of the user and wait for the result
   const returnUser = await editUserUseCase.handler({
-    _id: req.params.id,
+    _id: req.params._id,
     name,
     email,
     password: hashedPassword,
