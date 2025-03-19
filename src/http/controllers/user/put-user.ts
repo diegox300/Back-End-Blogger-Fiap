@@ -3,6 +3,7 @@ import { z } from 'zod' // Import zod for schema validation
 import { makeEditUserUseCase } from '../../../use-cases/factory/user/make-edit-user-usecase' // Importing the factory function to create the use case for editing users
 import { asyncHandler } from '../../../middleware/asyncHandler' // Importing middleware for handling async operations
 import bcrypt from 'bcrypt' // Importing bcrypt for hashing passwords
+import { makeFindUserByIdUseCase } from '../../../use-cases/factory/user/make-find-user-by-id-usecase' // Importing the factory function to create the use case for finding users by ID
 
 // Edit an existing user
 export const editUser = asyncHandler(async (req: Request, res: Response) => {
@@ -26,6 +27,13 @@ export const editUser = asyncHandler(async (req: Request, res: Response) => {
   const { name, email, password, isAdmin } = await editBodySchema.parseAsync(
     req.body,
   )
+
+  const findUserByIdUseCase = makeFindUserByIdUseCase() // Creating an instance of the use case for finding users by ID
+  const user = await findUserByIdUseCase.handler(req.params.id) // Find the user by ID
+
+  if (!user) {
+    return res.status(404).send({ message: 'User not found' }) // Return 404 if user is not found
+  }
 
   const editUserUseCase = makeEditUserUseCase() // Creating an instance of the use case for editing users
 
