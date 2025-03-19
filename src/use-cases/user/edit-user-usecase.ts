@@ -1,29 +1,11 @@
-import { UserRepository } from '../../repositories/user.repository'
-
-interface EditUserDTO {
-  _id: string
-  name?: string
-  email?: string
-  password?: string
-  isAdmin?: boolean
-}
+import { UserRepository } from '../../repositories/user.repository' // Importing the UserRepository for database operations
+import { UserType } from '../../models/user.model' // Importing the UserType model; adjust the path as necessary
 
 export class EditUserUseCase {
-  constructor(private userRepository: UserRepository) {}
+  constructor(private userRepository: UserRepository) {} // Injecting the UserRepository dependency
 
-  async handler({ _id, name, email, password, isAdmin }: EditUserDTO) {
-    // Find the user by ID
-    const user = await this.userRepository.findById(_id)
-    if (!user) {
-      throw new Error('User not found')
-    }
-
-    // Update the user fields if they are provided
-    if (name) user.name = name
-    if (email) user.email = email
-    if (password) user.password = password
-    if (isAdmin !== undefined) user.isAdmin = isAdmin
-
-    return user
+  async execute(id: string, updateData: Partial<UserType>) {
+    // Method to execute the update of a user by its ID
+    return this.userRepository.updateUserById(id, updateData) // Calling the updateUserById method on the repository with the provided ID and update data
   }
 }
