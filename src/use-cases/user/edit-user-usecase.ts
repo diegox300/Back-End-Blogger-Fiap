@@ -1,7 +1,7 @@
 import { UserRepository } from '../../repositories/user.repository'
 
 interface EditUserDTO {
-  id: string
+  _id: string
   name?: string
   email?: string
   password?: string
@@ -11,7 +11,7 @@ interface EditUserDTO {
 export class EditUserUseCase {
   constructor(private userRepository: UserRepository) {}
 
-  async handler({ id, name, email, password, isAdmin }: EditUserDTO) {
+  async handler({ _id, name, email, password, isAdmin }: EditUserDTO) {
     // Find the user by ID
     const user = await this.userRepository.findById(id)
     if (!user) {

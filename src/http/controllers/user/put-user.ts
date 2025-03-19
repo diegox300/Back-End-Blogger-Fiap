@@ -36,11 +36,11 @@ export const editUser = asyncHandler(async (req: Request, res: Response) => {
 
   // Handle the update of the user and wait for the result
   const returnUser = await editUserUseCase.handler({
-    id: req.params.id, // Assuming the user ID is passed as a URL parameter
+    _id: req.params.id,
     name,
     email,
     password: hashedPassword,
-    isAdmin, // Pass the isAdmin field to the use case
+    isAdmin,
   })
 
   // removed password from the response
