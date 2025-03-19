@@ -44,11 +44,16 @@ export class UserRepository {
   }
 
   // Asynchronous method to update a user by ID
-  async updateUser(
-    _id: string,
+  async updateUserById(
+    id: string,
     updateData: Partial<UserType>,
   ): Promise<UserType | null> {
-    // Find a user by their ID and update with the provided data
-    return User.findByIdAndUpdate(_id, updateData, { new: true }).exec()
+    // Update a user by their ID
+    const updatedUser = await User.findByIdAndUpdate(id, updateData, {
+      new: true,
+    }).exec()
+
+    // Return the updated user or null if not found
+    return updatedUser ? (updatedUser.toObject() as UserType) : null
   }
 }
