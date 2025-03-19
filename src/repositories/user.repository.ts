@@ -42,4 +42,13 @@ export class UserRepository {
   ): Promise<void> {
     await User.findByIdAndUpdate(userId, { $push: { posts: postId } }).exec()
   }
+
+  // Asynchronous method to update a user by ID
+  async updateUser(
+    id: string,
+    updateData: Partial<UserType>,
+  ): Promise<UserType | null> {
+    // Find a user by their ID and update with the provided data
+    return User.findByIdAndUpdate(id, updateData, { new: true }).exec()
+  }
 }

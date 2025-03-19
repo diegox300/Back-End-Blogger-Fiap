@@ -9,6 +9,48 @@
   "basePath": "/",
   "schemes": ["https"],
   "paths": {
+    "/users/{id}": {
+      "put": {
+        "summary": "Edit an existing user",
+        "description": "Edit an existing user with the provided data",
+        "tags": ["Users"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID of the user to edit",
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "user",
+            "description": "The user data to edit",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/NewUser"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User edited successfully",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          "400": {
+            "description": "Invalid data provided"
+          },
+          "404": {
+            "description": "User not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
     "/users/login": {
       "post": {
         "summary": "Login a user",
